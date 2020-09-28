@@ -14,8 +14,8 @@ ActiveRecord::Schema.define(version: 2020_09_28_194554) do
 
   create_table "characters", force: :cascade do |t|
     t.string "name"
-    t.integer "health"
-    t.integer "terror"
+    t.integer "health", default: 10
+    t.integer "terror", default: 0
     t.integer "user_id"
   end
 
