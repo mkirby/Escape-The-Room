@@ -1,6 +1,6 @@
-class CreateSaveTablesTable < ActiveRecord::Migration[6.0]
+class CreateSavesTable < ActiveRecord::Migration[6.0]
   def change
-      create_table :save_tables do |t|
+      create_table :saves do |t|
         t.integer :character_id
         t.integer :item_id
         t.boolean :item_used?

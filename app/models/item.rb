@@ -1,6 +1,6 @@
 class Item < ActiveRecord::Base
-    has_many :save_tables
-    has_many :characters, through: :save_tables
-    has_many :escapes, through: :save_tables
+    has_many :saves
+    has_many :characters, through: :saves
+    has_many :escapes, through: :saves
 
 end
