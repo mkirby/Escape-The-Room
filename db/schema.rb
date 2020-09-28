@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_28_191929) do
+ActiveRecord::Schema.define(version: 2020_09_28_194554) do
+
+  create_table "characters", force: :cascade do |t|
+    t.string "name"
+    t.integer "health"
+    t.integer "terror"
+    t.integer "user_id"
+  end
+
+  create_table "escapes", force: :cascade do |t|
+    t.string "name"
+    t.string "where_am_i"
+  end
+
+  create_table "item", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+  end
+
+  create_table "saves", force: :cascade do |t|
+    t.integer "character_id"
+    t.integer "item_id"
+    t.boolean "item_used?"
+    t.integer "escape_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
