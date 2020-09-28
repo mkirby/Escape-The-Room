@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_194554) do
     t.string "where_am_i"
   end
 
-  create_table "item", force: :cascade do |t|
+  create_table "items", force: :cascade do |t|
     t.string "name"
     t.string "description"
   end
