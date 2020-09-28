@@ -5,5 +5,6 @@ class CreateCharactersTable < ActiveRecord::Migration[6.0]
       t.integer :health
       t.integer :terror
       t.integer :user_id
+    end
   end
 end
