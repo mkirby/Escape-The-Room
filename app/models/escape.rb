@@ -1,6 +1,6 @@
 class Escape < ActiveRecord::Base
-    has_many :saves
-    has_many :items, through: :saves
-    has_many :characters, through: :saves
+    has_many :records
+    has_many :items, through: :records
+    has_many :characters, through: :records
 
 end

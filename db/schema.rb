@@ -29,7 +29,7 @@ ActiveRecord::Schema.define(version: 2020_09_28_194554) do
     t.string "description"
   end
 
-  create_table "saves", force: :cascade do |t|
+  create_table "records", force: :cascade do |t|
     t.integer "character_id"
     t.integer "item_id"
     t.boolean "item_used?"
