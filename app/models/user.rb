@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
     def self.main_menu
         prompt = TTY::Prompt.new
         system("clear")
-        welcome = prompt.select("") do |menu|
+        welcome = prompt.select("Enter your log in credentials or create an account") do |menu|
             menu.choice "Log In"
             menu.choice "Sign Up"
         end
@@ -26,7 +26,8 @@ class User < ActiveRecord::Base
         user = User.create(username: username, password: password)
         puts 'User Created'
         sleep 2
-        puts 'need to make logged in menu'
+        # NEED
+        'need to make logged in menu'
         #user.logged_in_menu
     end
 
@@ -38,7 +39,9 @@ class User < ActiveRecord::Base
             #if username/ password match match
             system("clear")
             ## NEED
-            "to logged in menu"
+            $logged_in_user = User.find_by username: username, password: password
+            
+            
         else
             #if username/ password don't match
             system("clear")
@@ -55,4 +58,11 @@ class User < ActiveRecord::Base
             end
         end
     end
+
+    def self.log_out
+        $logged_in_user = nil
+        User.main_menu
+        system("clear")
+    end
+
 end

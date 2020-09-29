@@ -15,4 +15,6 @@ puts "\nA SPOOKY- HORROR ADVENTURE APP WHERE YOU ESCAPE THE ROOM OR DIE!\n\n\n"
 puts "BEGIN"
 gets.chomp
 
+$logged_in_user = nil
+
 User.main_menu
