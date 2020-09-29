@@ -26,9 +26,9 @@ class User < ActiveRecord::Base
         user = User.create(username: username, password: password)
         puts 'User Created'
         sleep 2
-        # NEED
-        'need to make logged in menu'
-        #user.logged_in_menu
+        $logged_in_user = User.find_by username: username, password: password
+        system("clear")
+        User.user_menu
     end
 
     def self.log_in
@@ -40,7 +40,8 @@ class User < ActiveRecord::Base
             system("clear")
             ## NEED
             $logged_in_user = User.find_by username: username, password: password
-            
+            system("clear")
+            User.user_menu
             
         else
             #if username/ password don't match
@@ -64,5 +65,41 @@ class User < ActiveRecord::Base
         User.main_menu
         system("clear")
     end
+
+    def self.user_menu
+        prompt = TTY::Prompt.new
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Create New Character"
+            menu.choice "View Characters"
+            menu.choice "Log Out"
+        end
+        if choice == "Create New Character"
+            ## NEED
+            ####create new character method 
+        elsif choice == "View Characters"
+            system("clear")
+            User.characters_menu
+        elsif choice == "Log Out"
+            User.log_out
+        end
+    end
+
+    def self.characters_menu
+        prompt = TTY::Prompt.new
+        $logged_in_user.characters.each do |character|
+            puts character.name
+        end
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Select a Character"
+            menu.choice "Back"
+        end
+        if choice == "Select a Character"
+            ## NEED to create select character method
+        elsif choice == "Back"
+            User.user_menu
+        end
+    end
+
+    ##delete character
 
 end
