@@ -24,3 +24,8 @@ Clone to you local machine and run `bundle install`. Then run `Rake db:migrate`.
   - https://www.ruby2d.com/learn/get-started/
 - TTY-Toolkit
   - https://ttytoolkit.org/
+
+## Branch Switching to Remember
+- git checkout -b branch-name (make a branch then check it out)
+- git branch branch-name (make a new branch)
+- git checkout branch-name (switch branches)
