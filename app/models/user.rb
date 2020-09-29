@@ -69,19 +69,35 @@ class User < ActiveRecord::Base
     def self.user_menu
         prompt = TTY::Prompt.new
         choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Create New Character"
+            menu.choice "Start New Game"
             menu.choice "View Characters"
             menu.choice "Log Out"
         end
-        if choice == "Create New Character"
+        if choice == "Start New Game"
             ## NEED
-            ####create new character method 
+            ####create new character method
+            $logged_in_user.create_character
         elsif choice == "View Characters"
             system("clear")
             User.characters_menu
         elsif choice == "Log Out"
             User.log_out
         end
+    end
+
+    def create_character
+        prompt = TTY::Prompt.new
+        name = prompt.ask('What would you like to name your character?')
+        character = Character.create(name: name, user_id: self.id)
+        #this is the original start location
+        #make sure this initialize matches whatever we call the first escape location
+        escape = Escape.create(where_am_i: "Cage")
+        record = Record.create(character_id: character.id, escape_id: escape.id)
+        puts "#{character.name} Successfully Created"
+        sleep 1
+        #NEED
+        #send to game beginning
+        puts "You wake up in a cage... coming soon"
     end
 
     def self.characters_menu
