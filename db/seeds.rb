@@ -1,5 +1,4 @@
 
-
 User.create(username:'Matt', password: 'Noodle1')
 User.create(username:'Ajak', password: '123')
 

@@ -87,19 +87,60 @@ class User < ActiveRecord::Base
     def self.characters_menu
         prompt = TTY::Prompt.new
         $logged_in_user.characters.each do |character|
-            puts character.name
+            puts character.reload.name
         end
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Select a Character"
             menu.choice "Back"
         end
         if choice == "Select a Character"
-            ## NEED to create select character method
+            system("clear")
+            User.select_character_menu
         elsif choice == "Back"
+            system("clear")
             User.user_menu
         end
     end
 
-    ##delete character
+    def self.select_character_menu
+        prompt = TTY::Prompt.new
+        character_name = $logged_in_user.characters.map do |character|
+            character.reload.name
+        end
+        choice = prompt.select('Choose a character', character_name)
+
+        choice2 = prompt.select('') do |menu|
+            menu.choice "Rename Character"
+            menu.choice "Delete Character"
+            menu.choice "Back"
+        end
+
+        if choice2 == "Rename Character"
+            new_name = prompt.ask('What would you like to name your character?')
+            character = Character.find_by name: choice
+            character.update(name: new_name)
+            User.characters_menu
+        elsif choice2 == "Delete Character"
+            confirm = prompt.select("Are you sure you want to delete #{choice}?") do |q|
+                q.choice "yes"
+                q.choice "no"
+            end
+            if confirm == "yes"
+                character = Character.find_by name: choice
+                escape = character.escapes[0]
+                record = character.records
+                character.destroy
+                escape.destroy
+                record.destroy_all
+                puts "deleting character"
+            elsif confirm == "no"
+                system("clear")
+                User.select_character_menu
+            end
+        elsif choice2 == "Back"
+            User.characters_menu
+        end
+
+    end
 
 end
