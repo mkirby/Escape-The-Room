@@ -7,14 +7,14 @@ class User < ActiveRecord::Base
         prompt = TTY::Prompt.new
         system("clear")
         welcome = prompt.select("") do |menu|
-            menu.choice "Sign Up"
             menu.choice "Log In"
+            menu.choice "Sign Up"
         end
         if welcome == "Log In"
-            # puts "on your way to login"
-            #to log in method
-            #User.log_in
+            system("clear")
+            User.log_in
         elsif welcome == "Sign Up"
+            system("clear")
             User.sign_up
         end
     end
@@ -28,5 +28,31 @@ class User < ActiveRecord::Base
         sleep 2
         puts 'need to make logged in menu'
         #user.logged_in_menu
+    end
+
+    def self.log_in
+        prompt = TTY::Prompt.new
+        username = prompt.ask("Enter Your Username")
+        password = prompt.mask("Enter Your Password")
+        if User.find_by username: username, password: password
+            #if username/ password match match
+            system("clear")
+            ## NEED
+            "to logged in menu"
+        else
+            #if username/ password don't match
+            system("clear")
+            choice = prompt.select('Username/Password not found.') do |menu|
+            menu.choice "Retry Log In"
+            menu.choice "Sign Up"
+            end
+            if choice == "Retry Log In"
+                system("clear")
+                User.log_in
+            elsif choice == "Sign Up"
+                system("clear")
+                User.sign_up
+            end
+        end
     end
 end
