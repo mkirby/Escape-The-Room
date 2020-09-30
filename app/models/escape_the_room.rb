@@ -92,10 +92,13 @@ class EscapeTheRoom
 
     def self.characters_menu
         prompt = TTY::Prompt.new
-        @session_user.characters.reload.each do |character|
-            puts character.name
+        puts "#{@session_user.username}'s Characters:\n\n"
+        characters = @session_user.characters.reload.collect { |character| character.name}
+        characters.sort!
+        characters.each do |character|
+            puts character
         end
-        choice = prompt.select('Choose an option') do |menu|
+        choice = prompt.select("\nChoose an option") do |menu|
             menu.choice "Select a Character"
             menu.choice "Back"
         end
@@ -113,7 +116,7 @@ class EscapeTheRoom
         character_name = @session_user.characters.reload.map do |character|
             character.name
         end
-        choice = prompt.select('Choose a character', character_name)
+        choice = prompt.select("Choose a character", character_name.sort)
 
         choice2 = prompt.select('') do |menu|
             menu.choice "Continue Game"
@@ -123,6 +126,7 @@ class EscapeTheRoom
         end
 
         if choice2 == "Continue Game"
+            @session_character = choice
             #NEED
             #verify location and load into that location
             #Escape.where_am_i_load_that_location
