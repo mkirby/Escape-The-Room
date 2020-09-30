@@ -163,5 +163,26 @@ class EscapeTheRoom
         end
     end
 
+    
+    # █▀▀ █▀ █▀▀ ▄▀█ █▀█ █▀▀   █▀▄▀█ █▀▀ █▄░█ █░█
+    # ██▄ ▄█ █▄▄ █▀█ █▀▀ ██▄   █░▀░█ ██▄ █░▀█ █▄█
+
+    def escape_menu
+        prompt = TTY::Prompt.new
+        choice = prompt.select("Escape Menu") do |menu|
+            menu.choice "View Stats"
+            menu.choice "View Inventory"
+            menu.choice "Save & Quit"
+        end
+        if choice == "View Stats"
+            @session_character.check_stats
+        elsif choice == "View Inventory"
+            @session_character.view_inventory
+        elsif choice == "Save & Quit"
+            @session_character.save_quit
+        end
+    end
+
+    
 
 end
