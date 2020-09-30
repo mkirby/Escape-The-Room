@@ -17,7 +17,7 @@ class Escape < ActiveRecord::Base
             menu.choice "Safe"
             menu.choice "Door up the stairs"
         end
-
+        system("clear")
         if choice == "Pool Table"
             system("clear")
             ###Pool Table Method story
