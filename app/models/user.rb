@@ -5,7 +5,6 @@ class User < ActiveRecord::Base
 
     def self.main_menu
         prompt = TTY::Prompt.new
-        system("clear")
         welcome = prompt.select("Enter your log in credentials or create an account") do |menu|
             menu.choice "Log In"
             menu.choice "Sign Up"
