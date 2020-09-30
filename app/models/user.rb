@@ -37,8 +37,6 @@ class User < ActiveRecord::Base
         password = prompt.mask("Enter Your Password")
         if User.find_by username: username, password: password
             #if username/ password match match
-            system("clear")
-            ## NEED
             $logged_in_user = User.find_by username: username, password: password
             system("clear")
             User.user_menu
@@ -135,12 +133,18 @@ class User < ActiveRecord::Base
         choice = prompt.select('Choose a character', character_name)
 
         choice2 = prompt.select('') do |menu|
+            menu.choice "Continue Game"
             menu.choice "Rename Character"
             menu.choice "Delete Character"
             menu.choice "Back"
         end
 
-        if choice2 == "Rename Character"
+        if choice2 == "Continue Game"
+            #NEED
+            #verify location and load into that location
+            #Escape.where_am_i_load_that_location
+            puts "loads character's where am i... coming soon"
+        elsif choice2 == "Rename Character"
             new_name = prompt.ask('What would you like to name your character?')
             character = Character.find_by name: choice
             character.update(name: new_name)
