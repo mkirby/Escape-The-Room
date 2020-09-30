@@ -60,8 +60,8 @@ class User < ActiveRecord::Base
 
     def self.log_out
         $logged_in_user = nil
-        User.main_menu
         system("clear")
+        User.main_menu
     end
 
     def self.user_menu
