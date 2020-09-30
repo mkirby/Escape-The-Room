@@ -80,9 +80,8 @@ class EscapeTheRoom
         end
         if choice == "Start New Game"
             @session_character = @session_user.create_character
-            #NEED
-            #@session_character into game
-            puts "You wake up in a cage... coming soon"
+            #send the current character into their escape instance game intro
+            @session_character.escapes.intro
         elsif choice == "View Characters"
             @session_user.has_a_character?
         elsif choice == "Log Out"
@@ -167,6 +166,7 @@ class EscapeTheRoom
     # █▀▀ █▀ █▀▀ ▄▀█ █▀█ █▀▀   █▀▄▀█ █▀▀ █▄░█ █░█
     # ██▄ ▄█ █▄▄ █▀█ █▀▀ ██▄   █░▀░█ ██▄ █░▀█ █▄█
 
+    
     def escape_menu
         prompt = TTY::Prompt.new
         choice = prompt.select("Escape Menu") do |menu|
