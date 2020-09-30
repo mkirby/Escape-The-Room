@@ -21,14 +21,15 @@ class Character < ActiveRecord::Base
         leave = prompt.ask("Do you want to save and quit?") do |menu|
             menu.choice "Yes"
             menu.choice "No Return to Game"
-        if leave == "Yes"
-            #NEED
-            #save where I am - what character?
-            #character.escapes.update (where_am_i: "Where they leave from")
-            User.user_menu
-        elsif leave == "No Return to Game"
-            #NEED
-            #return to where we were
+            if leave == "Yes"
+                #NEED
+                #save where I am - what character?
+                #character.escapes.update (where_am_i: "Where they leave from")
+                User.user_menu
+            elsif leave == "No Return to Game"
+                #NEED
+                #return to where we were
+            end
         end
     end
 end
