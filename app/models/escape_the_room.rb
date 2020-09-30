@@ -1,7 +1,7 @@
 class EscapeTheRoom
     #this is our CLI class with @session_user and @session_character
     
-
+    
     # █▀▄▀█ ▄▀█ █ █▄░█   █▀▄▀█ █▀▀ █▄░█ █░█
     # █░▀░█ █▀█ █ █░▀█   █░▀░█ ██▄ █░▀█ █▄█
 
@@ -135,6 +135,7 @@ class EscapeTheRoom
             new_name = prompt.ask('What would you like to name your character?')
             character = Character.find_by name: choice
             character.update(name: new_name)
+            system("clear")
             EscapeTheRoom.characters_menu
         elsif choice2 == "Delete Character"
             confirm = prompt.select("Are you sure you want to delete #{choice}?") do |q|
