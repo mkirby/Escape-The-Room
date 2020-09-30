@@ -74,12 +74,17 @@ class User < ActiveRecord::Base
             menu.choice "Log Out"
         end
         if choice == "Start New Game"
-            ## NEED
-            ####create new character method
             $logged_in_user.create_character
         elsif choice == "View Characters"
-            system("clear")
-            User.characters_menu
+            if $logged_in_user.characters.count > 0
+                system("clear")
+                User.characters_menu
+            else
+                puts "You have no characters! Start a new game!"
+                sleep 2
+                system("clear")
+                User.user_menu
+            end
         elsif choice == "Log Out"
             User.log_out
         end
@@ -145,10 +150,13 @@ class User < ActiveRecord::Base
                 character = Character.find_by name: choice
                 escape = character.escapes[0]
                 record = character.records
+                puts "#{character.name} was swallowed into the abyss"
+                sleep 2
                 character.destroy
                 escape.destroy
                 record.destroy_all
-                puts "deleting character"
+                system("clear")
+                User.characters_menu
             elsif confirm == "no"
                 system("clear")
                 User.select_character_menu
