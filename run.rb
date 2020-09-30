@@ -9,6 +9,7 @@ sleep 1
 puts "BEGIN"
 gets.chomp
 
-$logged_in_user = User.all.first
+$logged_in_user = nil
+$current_character = nil
 system("clear")
 User.main_menu
