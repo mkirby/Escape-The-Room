@@ -11,7 +11,7 @@ class Escape < ActiveRecord::Base
         
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Yell for help"
-            menu.choice "Grab cue stick"
+            menu.choice "Reach for cue stick"
             menu.choice "Reach for keys"
             menu.choice "View Escape Menu"
         end
@@ -25,7 +25,7 @@ class Escape < ActiveRecord::Base
             system("clear")
             self.cage  ##Sends back to start of cage story of waking up dizzy
             
-        elsif choice == "Grab cue stick"
+        elsif choice == "Reach for cue stick"
             ###Need story of character grabbing stick and add cue stick to character.items
             #puts "You now have a cue stick, what what you like to do with it?"
             choice2 = prompt.select('You now have a cue stick, what what you like to do with it?') do |menu|
