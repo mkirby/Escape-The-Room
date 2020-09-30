@@ -10,5 +10,9 @@ class Character < ActiveRecord::Base
         puts "Terror: #{self.terror}"
     end
 
-
+    def view_inventory
+        self.items.map do |item|
+            puts "#{item.name} - '#{item.description}'"
+        end
+    end
 end
