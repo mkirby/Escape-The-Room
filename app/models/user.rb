@@ -76,7 +76,7 @@ class User < ActiveRecord::Base
         if choice == "Start New Game"
             $logged_in_user.create_character
         elsif choice == "View Characters"
-            if $logged_in_user.characters.count > 0
+            if $logged_in_user.has_a_character?
                 system("clear")
                 User.characters_menu
             else
@@ -88,6 +88,10 @@ class User < ActiveRecord::Base
         elsif choice == "Log Out"
             User.log_out
         end
+    end
+
+    def has_a_character?
+        $logged_in_user.characters.count > 0
     end
 
     def create_character
@@ -107,8 +111,8 @@ class User < ActiveRecord::Base
 
     def self.characters_menu
         prompt = TTY::Prompt.new
-        $logged_in_user.characters.each do |character|
-            puts character.reload.name
+        $logged_in_user.characters.reload.each do |character|
+            puts character.name
         end
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Select a Character"
@@ -125,8 +129,8 @@ class User < ActiveRecord::Base
 
     def self.select_character_menu
         prompt = TTY::Prompt.new
-        character_name = $logged_in_user.characters.map do |character|
-            character.reload.name
+        character_name = $logged_in_user.characters.reload.map do |character|
+            character.name
         end
         choice = prompt.select('Choose a character', character_name)
 
@@ -156,7 +160,12 @@ class User < ActiveRecord::Base
                 escape.destroy
                 record.destroy_all
                 system("clear")
-                User.characters_menu
+                if $logged_in_user.has_a_character?
+                    User.characters_menu
+                else
+                    puts "You have no characters left. Start a new game."
+                    User.user_menu
+                end
             elsif confirm == "no"
                 system("clear")
                 User.select_character_menu
