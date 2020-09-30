@@ -4,10 +4,10 @@ class Escape < ActiveRecord::Base
     has_many :characters, through: :records
 
     def middle_of_room
-
+        prompt = TTY::Prompt.new
         puts "You're now standing in the middle of the basement"
-
-        choice = prompt.select('Where would you like to investigate?') do |menu|
+        sleep 2
+        choice = prompt.select('Where would you like to investigate?', per_page: 8) do |menu|
             menu.choice "Pool Table"
             menu.choice "Shelves"
             menu.choice "Surgical Table"
