@@ -3,16 +3,17 @@ class Escape < ActiveRecord::Base
     has_many :items, through: :records
     has_many :characters, through: :records
 
+    
 
     def cage
         prompt = TTY::Prompt.new
-
-        puts "You are in small cage with just enough room to lay down.\n\nYou feel a bit dizzy and hear footsteps coming from upstairs.\n\nYou look to your right and there is a cue stick resting by the floor of the cage.\n\nTo your left you see a set of keys dangling on a keyrack just outside of the cage.\n\n\n"
-        sleep 2
+        self.update(where_am_i: "Cage")
+        
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Yell for help"
             menu.choice "Grab cue stick"
             menu.choice "Reach for keys"
+            menu.choice "View Escape Menu"
         end
         system("clear")
         if choice == "Yell for help"
@@ -23,6 +24,7 @@ class Escape < ActiveRecord::Base
             prompt.keypress("Press space or enter to try again", keys: [:space, :return])
             system("clear")
             self.cage  ##Sends back to start of cage story of waking up dizzy
+            
         elsif choice == "Grab cue stick"
             ###Need story of character grabbing stick and add cue stick to character.items
             #puts "You now have a cue stick, what what you like to do with it?"
@@ -59,23 +61,11 @@ class Escape < ActiveRecord::Base
             prompt.keypress("Press space or enter to try again", keys: [:space, :return])
             system("clear")
             self.cage ##Sends back to start of cage story waking up dizzy
+
+        elsif choice == "View Escape Menu"
+            puts "escape menu coming soon"
+            ####self.escape_menu
         end
-    end
-
-    def cage_main_menu
-
-    end
-
-    def cage_yell_help
-
-    end
-
-    def cage_reach_for_keys
-
-    end
-
-    def cage_cue_stick
-
     end
 
 
