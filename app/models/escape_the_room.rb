@@ -126,7 +126,7 @@ class EscapeTheRoom
         end
 
         if choice2 == "Continue Game"
-            @session_character = choice
+            @session_character = Character.find_by name: choice
             #NEED
             #verify location and load into that location
             #Escape.where_am_i_load_that_location
