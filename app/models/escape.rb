@@ -1,3 +1,4 @@
+require "pastel"
 class Escape < ActiveRecord::Base
     has_many :records
     has_many :items, through: :records
@@ -10,7 +11,7 @@ class Escape < ActiveRecord::Base
             #self.pool_table
         elsif location == "Shelves"
             system("clear")
-            ##Sheleves method story
+            self.shelves
         elsif location == "Surgical Table"
             system("clear")
             ##Surgical Table method story
@@ -151,8 +152,7 @@ class Escape < ActiveRecord::Base
                 ###Pool Table Method story
                 puts "Going to the #{choice}!"
             elsif choice == "Shelves"
-                ##Sheleves method story
-                puts "Going to the #{choice}!"
+                self.shelves
             elsif choice == "Surgical Table"
                 ##Surgical Table method story
                 puts "Going to the #{choice}!"
@@ -174,6 +174,108 @@ class Escape < ActiveRecord::Base
             end
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
+        end
+    end
+
+    def shelves
+        prompt = TTY::Prompt.new
+        puts "Description of Shelves as a whole\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Examine Top Shelf", 1
+            menu.choice "Examine Middle Shelf", 2
+            menu.choice "Examine Bottom Shelf", 3
+            menu.choice "Examine under the Shelves", 4
+            menu.choice "Return to the middle of the room", 5
+            menu.choice "View Escape Menu", 6
+        end
+        system('clear')
+        if choice == 1
+            self.shelves_top
+        elsif choice == 2
+            self.shelves_middle
+        elsif choice == 3
+            self.shelves_bottom
+        elsif choice == 4
+            self.shelves_under
+        elsif choice == 5
+            self.middle_of_room
+        elsif choice == 6
+            EscapeTheRoom.escape_menu
+        end
+    end
+    def shelves_top
+        prompt = TTY::Prompt.new
+        puts "Description of The Top Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+    def shelves_middle
+        prompt = TTY::Prompt.new
+        puts "Description of The Middle Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+    def shelves_bottom
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Bible")
+            puts "Description of The Bottom Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Bible", 1
+                menu.choice "Back", 2
+            end
+            system('clear')
+            if choice == 1
+                self.shelves_bible
+            elsif choice == 2
+                self.shelves
+            end
+        else
+            puts "Description of The Bottom Shelf WITHOUT Bible\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
+        end
+
+    end
+    def shelves_under
+        prompt = TTY::Prompt.new
+        puts "Description of Under The Shelves\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+
+    def shelves_bible
+        prompt = TTY::Prompt.new
+        puts "Description of Under The Bibles\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "View Creased Passage", 1
+            menu.choice "Back", 2
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.view_bible_passage
+        elsif choice == 2
+            system('clear')
+            self.shelves
         end
     end
 end
