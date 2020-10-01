@@ -294,5 +294,4 @@ class EscapeTheRoom
             @session_character.escapes.first.desk_journal
         end
     end
-
 end
