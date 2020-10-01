@@ -149,6 +149,7 @@ class Escape < ActiveRecord::Base
             if choice == "Pool Table" || choice == "Surgical Table" || choice == "Bookcase"
                 self.update(where_am_i: "Middle of Room")
                 puts "The #{choice} blinks from existance as if it didn't exist yet!"
+                self.middle_of_room
             elsif choice == "Shelves"
                 self.shelves
             elsif choice == "Machine"
@@ -190,12 +191,13 @@ class Escape < ActiveRecord::Base
     def machine_access_code
         prompt = TTY::Prompt.new
         puts "The machine has four buttons and it looks like it takes 3 inputs"
-        choices = ["╭╯", "╭╮", "╰╮", "╰╯"]
+        choices = ["╭╯\n", "╰╮\n","╭╮\n","╰╯\n"]
         choice1 = prompt.select("Enter the first symbol", choices)
         choice2 = prompt.select("Enter the second symbol", choices)
         choice3 = prompt.select("Enter the third symbol", choices)
         enter_code = choice1 + choice2 + choice3
-        if enter_code  == "╭╯╭╮╰╯"
+        system('clear')
+        if enter_code  == "╭╯\n╭╮\n╰╯\n"
             self.machine_correct_code
         else 
             self.machine_incorrect_code
