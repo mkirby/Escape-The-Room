@@ -27,10 +27,10 @@ class Escape < ActiveRecord::Base
             self.desk
         elsif location == "Safe"
             system("clear")
-            ##Safe method story
+            self.safe
         elsif location == "Door up the stairs"
             system("clear")
-            ##Door method story
+            self.door
         elsif location == "Middle of Room"
             system("clear")
             self.middle_of_room
@@ -164,11 +164,9 @@ class Escape < ActiveRecord::Base
             elsif choice == "Desk"
                 self.desk
             elsif choice == "Safe"
-                ##Safe method story
-                puts "Going to the #{choice}!"
+                self.safe
             elsif choice == "Door up the stairs"
-                ##Door method story
-                puts "Going to the #{choice}!"
+                self.door
             end
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
@@ -488,4 +486,38 @@ class Escape < ActiveRecord::Base
         end
     end
 
+    def door
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Key")
+            puts "Description of stairs and door as a whole\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Door", 1
+                menu.choice "Bang on Door", 2
+                menu.choice "Back",3
+            end
+            system('clear')
+            if choice == 1
+                system('clear')
+                puts "more in depth description of door or something spooky"
+                self.door
+            elsif choice == 2 #never a good idea
+                ### SEND TO BACK TO LOCKED IN CAGE
+                system('clear')
+                puts "message about going back to cage"
+                self.cage
+            end
+        else #this means they have the key
+            puts "SPECIAL Description of stairs and door as a whole\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Quietly Unlock Door", 1
+                menu.choice "Wait I Forgot Something", 2
+            end
+            system('clear')
+            if choice == 1
+                #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
+            elsif choice == 2
+                self.middle_of_room
+            end
+        end
+    end
 end
