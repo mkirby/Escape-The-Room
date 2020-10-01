@@ -274,4 +274,25 @@ class EscapeTheRoom
             @session_character.escapes.first.shelves_bible
         end
     end
+
+    def self.view_journal_cover
+        pastel = Pastel.new
+        prompt = TTY::Prompt.new
+        puts "Description of Journal cover\n\n"
+        puts "You open the cover and notice a small inscription on the inside: "
+        puts pastel.red"\nProperty of Dr. F\nDoB: 03/11/18\nLicense Number: BOES348562945\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Take the Journal", 1
+            menu.choice "Back", 2
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.add_character_item("Journal")
+            @session_character.escapes.first.desk_center
+        elsif choice == 2
+            system('clear')
+            @session_character.escapes.first.desk_journal
+        end
+    end
+
 end
