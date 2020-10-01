@@ -196,4 +196,13 @@ class EscapeTheRoom
         end
     end
 
+
+    # █ █▄░█   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █░█ █▀▀ █░░ █▀█ █▀▀ █▀█ █▀
+    # █ █░▀█   █▄█ █▀█ █░▀░█ ██▄   █▀█ ██▄ █▄▄ █▀▀ ██▄ █▀▄ ▄█
+
+
+    def self.add_character_item(item_name)
+        item = Item.all.find_by name: item_name
+        new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+    end
 end
