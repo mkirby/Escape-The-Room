@@ -131,9 +131,8 @@ class Escape < ActiveRecord::Base
     def middle_of_room
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Middle of Room")
-        puts "You're currently standing in the middle of the basement\n\n"
-        sleep 2
-        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
+        puts "You're currently standing in the middle of the basement thinking about the escape plan.\n\n"
+        choice = prompt.select('Where Would You Like To Investigate?', per_page: 9) do |menu|
             menu.choice "Pool Table"
             menu.choice "Shelves"
             menu.choice "Surgical Table"
@@ -141,30 +140,24 @@ class Escape < ActiveRecord::Base
             menu.choice "Bookcase"
             menu.choice "Desk"
             menu.choice "Safe"
-            menu.choice "Door up the stairs"
+            menu.choice "Door Up The Stairs"
             menu.choice "Escape Menu"
         end
         system("clear")
         if choice != "Escape Menu"
             self.update(where_am_i: "#{choice}")
-            if choice == "Pool Table"
-                ###Pool Table Method story
-                puts "Going to the #{choice}!"
+            if choice == "Pool Table" || choice == "Surgical Table" || choice == "Bookcase"
+                self.update(where_am_i: "Middle of Room")
+                puts "The #{choice} blinks from existance as if it didn't exist yet!"
             elsif choice == "Shelves"
                 self.shelves
-            elsif choice == "Surgical Table"
-                ##Surgical Table method story
-                puts "Going to the #{choice}!"
             elsif choice == "Machine"
                 self.machine
-            elsif choice == "Bookcase"
-                ##Bookcase method story
-                puts "Going to the #{choice}!"
             elsif choice == "Desk"
                 self.desk
             elsif choice == "Safe"
                 self.safe
-            elsif choice == "Door up the stairs"
+            elsif choice == "Door Up The Stairs"
                 self.door
             end
         elsif choice == "Escape Menu"
@@ -176,22 +169,19 @@ class Escape < ActiveRecord::Base
         prompt = TTY::Prompt.new
         self.reload.machine_on
         if machine_on == true
-            puts "You walk up to the buzzing machine.\n\nIt's full of life.\n\nThe desk nearby is suddenly humming away..."
+            puts "You're standing in front of the machine as it buzzes and crackles with sparks of electricity.\n\nIt's full of life."
         elsif machine_on == false
-            puts "You walk up to the machine with two conical spires and a keypad.\n\nYou think, 'What could this thing possibly be for??'\n\n"
+            puts "You're standing in front of the quiet machine with two conical spires and a dimly illuminated keypad asking for an access code.\n\n'What could this thing possibly be for??'\n\n"
         end
-        sleep 1
-        
-        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
-            menu.choice "Enter access code"
-            menu.choice "Go back to middle of room"
+        choice = prompt.select('Where would you like to investigate?') do |menu|
+            menu.choice "Enter Access Code"
+            menu.choice "Return To The Middle Of The Room"
             menu.choice "Escape Menu"
         end
         system("clear")
-
-        if choice == "Enter access code"
+        if choice == "Enter Access Code"
             self.machine_access_code
-        elsif choice == "Go back to middle of room"
+        elsif choice == "Return To The Middle Of The Room"
             self.middle_of_room
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
