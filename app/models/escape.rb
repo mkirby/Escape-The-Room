@@ -3,16 +3,53 @@ class Escape < ActiveRecord::Base
     has_many :items, through: :records
     has_many :characters, through: :records
 
+    def where_am_i_load_that_location
+        location = self.where_am_i
+        if location == "Pool Table"
+            system("clear")
+            #self.pool_table
+        elsif location == "Shelves"
+            system("clear")
+            ##Sheleves method story
+        elsif location == "Surgical Table"
+            system("clear")
+            ##Surgical Table method story
+        elsif location == "Machine"
+            system("clear")
+            ##Machine method story
+        elsif location == "Bookcase"
+            system("clear")
+            ##Bookcase method story
+        elsif location == "Desk"
+            system("clear")
+            ##Desk method story
+        elsif location == "Safe"
+            system("clear")
+            ##Safe method story
+        elsif location == "Door up the stairs"
+            system("clear")
+            ##Door method story
+        elsif location == "Middle of Room"
+            system("clear")
+            self.middle_of_room
+        elsif location == "Cage"
+            system("clear")
+            self.cage
+        end
+    end
+
     def intro
+        ##CHANGE TO ENTER TO CONTINUE TO SEE TEXT
+
         prompt = TTY::Prompt.new
         system('clear')
         puts "Everything is black..."
-        sleep 3
+        sleep 1
         puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light."
-        sleep 7
+        sleep 1
         system('clear')
         puts "You begin to open your eyes..."
-        sleep 3
+        sleep 1
         system('clear')
         puts "\nYou feel the coldness of a cement floor beneath your body, as your eyes adjust to the yellow glow of overhead lights."
         puts "\nYou find yourself laying in a floor to ceiling cage with just enough floor space to lay down."
@@ -73,8 +110,8 @@ class Escape < ActiveRecord::Base
                     menu.choice "Unlock the cage"
                 end
                 if choice3 == "Unlock the cage"
-                    ###method that moves outside of the cage
-                    puts "leaving the cage need method!"
+                    system('clear')
+                    self.middle_of_room
                 end
             end
                 
@@ -88,17 +125,16 @@ class Escape < ActiveRecord::Base
             self.cage ##Sends back to start of cage story waking up dizzy
 
         elsif choice == "View Escape Menu"
-            puts "escape menu coming soon"
-            ####self.escape_menu
+            EscapeTheRoom.escape_menu
         end
     end
 
     def middle_of_room
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Middle of Room")
-        puts "You're currently standing in the middle of the basement"
+        puts "You're currently standing in the middle of the basement\n\n"
         sleep 2
-        choice = prompt.select('Where would you like to investigate?', per_page: 8) do |menu|
+        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
             menu.choice "Pool Table"
             menu.choice "Shelves"
             menu.choice "Surgical Table"
@@ -107,40 +143,38 @@ class Escape < ActiveRecord::Base
             menu.choice "Desk"
             menu.choice "Safe"
             menu.choice "Door up the stairs"
+            menu.choice "Escape Menu"
         end
         system("clear")
-        if choice == "Pool Table"
-            system("clear")
-            ###Pool Table Method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Shelves"
-            system("clear")
-            ##Sheleves method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Surgical Table"
-            system("clear")
-            ##Surgical Table method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Machine"
-            system("clear")
-            ##Machine method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Bookcase"
-            system("clear")
-            ##Bookcase method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Desk"
-            system("clear")
-            ##Desk method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Safe"
-            system("clear")
-            ##Safe method story
-            puts "Going to the #{choice}!"
-        elsif choice == "Door up the stairs"
-            system("clear")
-            ##Door method story
-            puts "Going to the #{choice}!"
+        if choice != "Escape Menu"
+            self.update(where_am_i: "#{choice}")
+            if choice == "Pool Table"
+                ###Pool Table Method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Shelves"
+                ##Sheleves method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Surgical Table"
+                ##Surgical Table method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Machine"
+                ##Machine method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Bookcase"
+                ##Bookcase method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Desk"
+                ##Desk method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Safe"
+                ##Safe method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Door up the stairs"
+                ##Door method story
+                puts "Going to the #{choice}!"
+            end
+        elsif choice == "Escape Menu"
+            EscapeTheRoom.escape_menu
         end
     end
 end

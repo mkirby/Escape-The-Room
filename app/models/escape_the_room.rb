@@ -1,6 +1,7 @@
 class EscapeTheRoom
     #this is our CLI class with @session_user and @session_character
-    
+    #line 86 error
+    #line 137 error
     
     # █▀▄▀█ ▄▀█ █ █▄░█   █▀▄▀█ █▀▀ █▄░█ █░█
     # █░▀░█ █▀█ █ █░▀█   █░▀░█ ██▄ █░▀█ █▄█
@@ -81,7 +82,12 @@ class EscapeTheRoom
         if choice == "Start New Game"
             @session_character = @session_user.create_character
             #send the current character into their escape instance game intro
-            @session_character.escapes.intro
+            @session_character.escapes.first.intro
+            
+            ## Save & Quit errors and returns to here instead of what we want
+            
+            system('clear')
+            EscapeTheRoom.user_menu
         elsif choice == "View Characters"
             @session_user.has_a_character?
         elsif choice == "Log Out"
@@ -126,10 +132,12 @@ class EscapeTheRoom
 
         if choice2 == "Continue Game"
             @session_character = Character.find_by name: choice
-            #NEED
-            #verify location and load into that location
-            #Escape.where_am_i_load_that_location
-            puts "loads character's where am i... coming soon"
+            @session_character.escapes.first.where_am_i_load_that_location
+            
+            ## Save & Quit errors and returns to here instead of what we want
+            
+            system('clear')
+            EscapeTheRoom.user_menu
         elsif choice2 == "Rename Character"
             new_name = prompt.ask('What would you like to name your character?')
             character = Character.find_by name: choice
@@ -166,23 +174,26 @@ class EscapeTheRoom
     # █▀▀ █▀ █▀▀ ▄▀█ █▀█ █▀▀   █▀▄▀█ █▀▀ █▄░█ █░█
     # ██▄ ▄█ █▄▄ █▀█ █▀▀ ██▄   █░▀░█ ██▄ █░▀█ █▄█
 
-    
-    def escape_menu
+
+    def self.escape_menu
         prompt = TTY::Prompt.new
         choice = prompt.select("Escape Menu") do |menu|
             menu.choice "View Stats"
             menu.choice "View Inventory"
+            menu.choice "Return to Game"
             menu.choice "Save & Quit"
         end
         if choice == "View Stats"
             @session_character.check_stats
+            self.escape_menu
         elsif choice == "View Inventory"
             @session_character.view_inventory
+            self.escape_menu
+        elsif choice == "Return to Game"
+            @session_character.escapes.first.where_am_i_load_that_location
         elsif choice == "Save & Quit"
             @session_character.save_quit
         end
     end
-
-    
 
 end
