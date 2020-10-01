@@ -176,4 +176,29 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
+
+    def shelves
+        prompt = TTY::Prompt.new
+        put "Description of Shelves as a whole\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Examine Top Shelf", 1
+            menu.choice "Examine Middle Shelf", 2
+            menu.choice "Examine Bottom Shelf", 3
+            menu.choice "Examine under the Shelves", 4
+            menu.choice "Return to the middle of the moom", 5
+            menu.choice "View Escape Menu", 6
+        end
+        if choice = 1
+            self.shelves_top
+        elsif choice = 2
+            self.shelves_middle
+        elsif choice = 3
+            self.shelves_bottom
+        elsif choice = 4
+            self.shelves_under
+        elsif choice = 5
+            self.middle_of_room
+        elsif choice = 6
+            EscapeTheRoom.escape_menu
+        end
 end
