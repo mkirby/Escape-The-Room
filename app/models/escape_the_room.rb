@@ -208,7 +208,13 @@ class EscapeTheRoom
 
     def self.change_health(num)
         new_health = @session_character.heath + num
-        @session_character.update(health: new_health)
+        if new_health > 10
+            @session_character.update(health: 10)
+        elsif new_health <= 0
+            EscapeTheRoom.dead
+        else
+            @session_character.update(health: new_health) 
+        end
     end
 
     def self.change_terror(num)
