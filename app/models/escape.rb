@@ -151,8 +151,7 @@ class Escape < ActiveRecord::Base
                 ###Pool Table Method story
                 puts "Going to the #{choice}!"
             elsif choice == "Shelves"
-                ##Sheleves method story
-                puts "Going to the #{choice}!"
+                self.shelves
             elsif choice == "Surgical Table"
                 ##Surgical Table method story
                 puts "Going to the #{choice}!"
@@ -204,48 +203,48 @@ class Escape < ActiveRecord::Base
         end
     end
 
-        def shelves_top
-            prompt = TTY::Prompt.new
-            puts "Description of The Top Shelf\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "Back", 1
-            end
-            system('clear')
-            if choice == 1
-                self.shelves
-            end
+    def shelves_top
+        prompt = TTY::Prompt.new
+        puts "Description of The Top Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
         end
-        def shelves_middle
-            prompt = TTY::Prompt.new
-            puts "Description of The Middle Shelf\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "Back", 1
-            end
-            system('clear')
-            if choice == 1
-                self.shelves
-            end
+        system('clear')
+        if choice == 1
+            self.shelves
         end
-        def shelves_bottom
-            prompt = TTY::Prompt.new
-            puts "Description of The Bottom Shelf\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "Back", 1
-            end
-            system('clear')
-            if choice == 1
-                self.shelves
-            end
+    end
+    def shelves_middle
+        prompt = TTY::Prompt.new
+        puts "Description of The Middle Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
         end
-        def shelves_under
-            prompt = TTY::Prompt.new
-            puts "Description of Under The Shelves\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "Back", 1
-            end
-            system('clear')
-            if choice == 1
-                self.shelves
-            end
+        system('clear')
+        if choice == 1
+            self.shelves
         end
+    end
+    def shelves_bottom
+        prompt = TTY::Prompt.new
+        puts "Description of The Bottom Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+    def shelves_under
+        prompt = TTY::Prompt.new
+        puts "Description of Under The Shelves\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
 end
