@@ -30,7 +30,7 @@ class Escape < ActiveRecord::Base
             ##Safe method story
         elsif location == "Door up the stairs"
             system("clear")
-            ##Door method story
+            self.door
         elsif location == "Middle of Room"
             system("clear")
             self.middle_of_room
@@ -488,4 +488,35 @@ class Escape < ActiveRecord::Base
         end
     end
 
+    def door
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Key")
+            #show regular options
+            puts "Description of stairs and door as a whole\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Door", 1
+                menu.choice "Bang on Door", 2
+                menu.choice "Back",3
+            end
+            system('clear')
+            if choice == 1
+                #examine door
+            elsif choice == 2
+                #bang on door
+            end
+        else #this means they have the key
+            puts "SPECIAL Description of stairs and door as a whole\n"
+            #show additional menu options to unlock the door
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Quietly Unlock Door", 1
+                menu.choice "Wait I Forgot Something", 2
+            end
+            system('clear')
+            if choice == 1
+                #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
+            elsif choice == 2
+                self.middle_of_room
+            end
+        end
+    end
 end
