@@ -229,10 +229,13 @@ class Escape < ActiveRecord::Base
         prompt = TTY::Prompt.new
         puts "Description of The Bottom Shelf\n"
         choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Back", 1
+            menu.choice "Examine Bible", 1
+            menu.choice "Back", 2
         end
         system('clear')
         if choice == 1
+            self.shelves_bible
+        elsif choice == 2
             self.shelves
         end
     end
