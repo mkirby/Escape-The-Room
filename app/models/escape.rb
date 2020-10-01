@@ -396,7 +396,7 @@ class Escape < ActiveRecord::Base
         end
         system('clear')
         if choice == 1
-            self.update(where_am_i: "#{choice}")
+            self.update(where_am_i: "Examine Desk Top")
             self.desk_top
         elsif choice == 2
             self.desk_center #locked to start
@@ -436,7 +436,7 @@ class Escape < ActiveRecord::Base
     def desk_center
         prompt = TTY::Prompt.new
         if self.machine_on #true
-            put "Descrition of opened drawer\n"
+            puts "Descrition of opened drawer\n"
             if !EscapeTheRoom.has_item?("Journal")
                 choice = prompt.select('Choose an option') do |menu|
                     menu.choice "View Journal", 1
@@ -560,6 +560,7 @@ class Escape < ActiveRecord::Base
             system('clear')
             if choice == 1
                 #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
+                puts "Go to CONGRADULATIONS YOU ESCAPED!"
             elsif choice == 2
                 self.middle_of_room
             end

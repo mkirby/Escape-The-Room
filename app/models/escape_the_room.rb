@@ -268,7 +268,7 @@ class EscapeTheRoom
         system('clear')
         if choice == 1
             EscapeTheRoom.add_character_item("Bible")
-            @session_character.escapes.first.shelves_bottom
+            @session_character.escapes.first.shelves
         elsif choice == 2
             system('clear')
             @session_character.escapes.first.shelves_bible
@@ -288,7 +288,7 @@ class EscapeTheRoom
         system('clear')
         if choice == 1
             EscapeTheRoom.add_character_item("Journal")
-            @session_character.escapes.first.desk_center
+            @session_character.escapes.first.desk
         elsif choice == 2
             system('clear')
             @session_character.escapes.first.desk_journal
