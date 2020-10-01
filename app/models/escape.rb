@@ -265,36 +265,17 @@ class Escape < ActiveRecord::Base
 
     def shelves_bible
         prompt = TTY::Prompt.new
-        if !EscapeTheRoom.has_item?("Bible")
-            puts "Description of Under The Bibles\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "View Creased Passage", 1
-                menu.choice "Back", 2
-            end
+        puts "Description of Under The Bibles\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "View Creased Passage", 1
+            menu.choice "Back", 2
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.view_bible_passage
+        elsif choice == 2
             system('clear')
-            if choice == 1
-                EscapeTheRoom.view_bible_passage
-            elsif choice == 2
-                system('clear')
-                self.shelves
-            end
-        else
-            puts "Description of Under The Bibles\n"
-            choice = prompt.select('Choose an option') do |menu|
-                menu.choice "View Creased Passage", 1
-                menu.choice "Take the Bible", 2
-                menu.choice "Back", 3
-            end
-            system('clear')
-            if choice == 1
-                EscapeTheRoom.view_bible_passage
-            elsif choice == 2
-                EscapeTheRoom.add_character_item("Bible")
-                self.shelves_bottom
-            elsif choice == 3
-                system('clear')
-                self.shelves
-            end
+            self.shelves
         end
     end
 end
