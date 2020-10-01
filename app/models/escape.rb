@@ -70,11 +70,11 @@ class Escape < ActiveRecord::Base
     def cage
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Cage")
-        
-        choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Yell for help"
-            menu.choice "Reach for cue stick"
-            menu.choice "Reach for keys"
+        puts "You lean against the bars and decide what to do.\n\n"
+        choice = prompt.select('Choose An Option') do |menu|
+            menu.choice "Yell For Help"
+            menu.choice "Reach For Cue Stick"
+            menu.choice "Reach For Keys"
             menu.choice "View Escape Menu"
         end
         system("clear")
