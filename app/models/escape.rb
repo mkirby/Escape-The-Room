@@ -161,8 +161,7 @@ class Escape < ActiveRecord::Base
                 ##Bookcase method story
                 puts "Going to the #{choice}!"
             elsif choice == "Desk"
-                ##Desk method story
-                puts "Going to the #{choice}!"
+                self.desk
             elsif choice == "Safe"
                 ##Safe method story
                 puts "Going to the #{choice}!"
@@ -260,7 +259,6 @@ class Escape < ActiveRecord::Base
             self.shelves
         end
     end
-
     def shelves_bible
         prompt = TTY::Prompt.new
         puts "Description of Under The Bibles\n"
@@ -274,6 +272,39 @@ class Escape < ActiveRecord::Base
         elsif choice == 2
             system('clear')
             self.shelves
+        end
+    end
+
+    def desk
+        prompt = TTY::Prompt.new
+        puts "Description of Desk as a whole\n"
+        choice = prompt.select('Choose an option', per_page: 8) do |menu|
+            menu.choice "Examine Desk Top", 1
+            menu.choice "Examine Center Drawer", 2
+            menu.choice "Examine Left Top Drawer", 3
+            menu.choice "Examine Left Bottom Drawer", 4
+            menu.choice "Examine Left Top Drawer", 5
+            menu.choice "Examine Left Bottom Drawer", 6
+            menu.choice "Return to the middle of the room", 7
+            menu.choice "View Escape Menu", 8
+        end
+        system('clear')
+        if choice == 1
+            self.desk_top
+        elsif choice == 2
+            self.desk_center #locked
+        elsif choice == 3
+            self.desk_left_top
+        elsif choice == 4
+            self.desk_left_bottom
+        elsif choice == 5
+            self.desk_right_top
+        elsif choice == 6
+            self.desk_right_bottom
+        elsif choice == 7
+            self.middle_of_room
+        elsif choice == 8
+            EscapeTheRoom.escape_menu
         end
     end
 end
