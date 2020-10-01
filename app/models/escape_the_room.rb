@@ -207,7 +207,7 @@ class EscapeTheRoom
     end
 
     def self.change_health(num)
-        new_health = @session_character.heath + num
+        new_health = @session_character.health + num
         if new_health > 10
             @session_character.update(health: 10)
         elsif new_health <= 0
@@ -218,9 +218,10 @@ class EscapeTheRoom
     end
 
     def self.change_terror(num)
-        if new_terror > 10
+        new_terror = @session_character.terror + num
+        if new_terror >= 10
             EscapeTheRoom.insane
-        elsif new_terror <= 0
+        elsif new_terror < 0
             @session_character.update(terror: 0)
         else
             @session_character.update(terror: new_terror) 
