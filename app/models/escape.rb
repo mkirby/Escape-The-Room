@@ -23,7 +23,7 @@ class Escape < ActiveRecord::Base
             ##Bookcase method story
         elsif location == "Desk"
             system("clear")
-            ##Desk method story
+            self.desk
         elsif location == "Safe"
             system("clear")
             ##Safe method story
@@ -320,7 +320,34 @@ class Escape < ActiveRecord::Base
         end
     end
     def desk_center
-        #locked
+        prompt = TTY::Prompt.new
+        if self.machine_on #true
+            put "Descrition of opened drawer\n"
+            if !EscapeTheRoom.has_item?("Journal")
+                choice = prompt.select('Choose an option') do |menu|
+                    menu.choice "View Journal", 1
+                    menu.choice "Back"
+                end
+                system('clear')
+                if choice == 1
+                    self.desk_journal
+                elsif choice == 2
+                    self.desk
+                end
+            else
+                puts "Description of opened drawer WITHOUT Journal\n"
+                choice = prompt.select('Choose an option') do |menu|
+                    menu.choice "Back", 1
+                end
+                system('clear')
+                if choice == 1
+                    self.desk
+                end
+            end
+        else ## false
+            puts "The drawer is locked tight and has no noticable keyhole."
+            self.desk
+        end
     end
     def desk_left_top
         prompt = TTY::Prompt.new
