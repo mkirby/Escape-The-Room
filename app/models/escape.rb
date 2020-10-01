@@ -1,3 +1,4 @@
+require "pastel"
 class Escape < ActiveRecord::Base
     has_many :records
     has_many :items, through: :records
@@ -259,6 +260,40 @@ class Escape < ActiveRecord::Base
         system('clear')
         if choice == 1
             self.shelves
+        end
+    end
+
+    def shelves_bible
+        pastel = Pastel.new
+        prompt = TTY::Prompt.new
+
+        #if you don't have the bible you can only view passage
+        #once you read the passage you can take the bible
+
+        if !EscapeTheRoom.has_item?("Bible")
+            puts "Description of Under The Bibles\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "View Creased Passage", 1
+                menu.choice "Back", 2
+            end
+            system('clear')
+            if choice == 1
+                print "And the evening and the morning were the fifth day. And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so. And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good. And God said, Let us make man in our image, after our likeness: and let them have dominion over the "
+                print pastel.red"fish"
+                print " of the sea, and over the "
+                print pastel.red"fowl"
+                print " of the air, and over the "
+                print pastel.red"cattle"
+                puts ", and over all the earth, and over every creeping thing that creepeth upon the earth. So God created man in his own image, in the image of God created he him; male and female created he them. And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion over the fish of the sea, and over the fowl of the air, and over every living thing that moveth upon the earth. And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat.\n\n"
+                prompt.keypress("Back", keys: [:space, :return])
+                system('clear')
+                self.shelves_bible
+            elsif choice == 2
+                system('clear')
+                self.shelves
+            end
+        else
+
         end
     end
 end
