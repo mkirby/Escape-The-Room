@@ -170,7 +170,7 @@ class Escape < ActiveRecord::Base
         prompt = TTY::Prompt.new
         self.reload.machine_on
         if machine_on == true
-            puts "You're standing in front of the machine as it buzzes and crackles with sparks of electricity.\n\nIt's full of life."
+            puts "You're standing in front of the machine as it buzzes and crackles with sparks of electricity.\n\nIt's full of life.\n\n"
         elsif machine_on == false
             puts "You're standing in front of the quiet machine with two conical spires and a dimly illuminated keypad asking for an access code.\n\n'What could this thing possibly be for??'\n\n"
         end
@@ -205,25 +205,29 @@ class Escape < ActiveRecord::Base
     end
     def machine_correct_code
         prompt = TTY::Prompt.new
-        self.update(machine_on: true)
-            puts "'ACCESS GRANTED...'\n\n"
-            sleep 2
-            puts "You hear the machine start to turn on\n\n"
-            sleep 2
-            prompt.keypress("Press space or enter to go back", keys: [:space, :return])
-            system("clear")
-            self.machine
+        EscapeTheRoom.change_machine_powered_on_status_to(true)
+        puts "'ACCESS GRANTED'"
+        sleep 0.5
+        print "."
+        sleep 0.5
+        print "."
+        sleep 0.5
+        print ".\n\n"
+        sleep 0.5
+        puts "As the machine grumbles on you think you hear an audible click from the desk to your left before the sparks of electricity coming off the machine's spires draw your attention.\n\n"
+        prompt.keypress("Press Space or enter to go back", keys: [:space, :return])
+        system("clear")
+        self.machine
     end
     def machine_incorrect_code
-        self.update(machine_on: false)
-            puts "'ACCESS DENIED!'\n\n"
-            puts "An electric shock zaps you"
-            sleep 1
-            EscapeTheRoom.change_health(-1)
-            puts "Your health has been affected: -1"
-            sleep 2
-            system("clear")
-            self.machine
+        EscapeTheRoom.change_machine_powered_on_status_to(false)
+        puts "'ACCESS DENIED!'\n\n"
+        puts "An electric shock zaps you.\n\n"
+        EscapeTheRoom.change_health(-1)
+        puts "Your health has been affected: -1\n\n"
+        prompt.keypress("Return to the Machine", keys: [:space, :return])
+        system("clear")
+        self.machine
     end
     
     def shelves

@@ -295,6 +295,10 @@ class EscapeTheRoom
         end
     end
 
+    def self.change_machine_powered_on_status_to(boolean)
+        @session_character.escapes.first.update(machine_on: boolean)
+    end
+
     def self.thanks_for_playing
         "Thank you so much for playing our little cli game. Lots of hard work went into planning our escape story and puzzles. We hope you enjoyed it!\n\n"
         prompt.keypress("To Return To The Menu Press Enter", keys: [:space, :return])
