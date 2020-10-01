@@ -27,7 +27,7 @@ class Escape < ActiveRecord::Base
             self.desk
         elsif location == "Safe"
             system("clear")
-            ##Safe method story
+            self.safe
         elsif location == "Door up the stairs"
             system("clear")
             self.door
@@ -164,11 +164,9 @@ class Escape < ActiveRecord::Base
             elsif choice == "Desk"
                 self.desk
             elsif choice == "Safe"
-                ##Safe method story
-                puts "Going to the #{choice}!"
+                self.safe
             elsif choice == "Door up the stairs"
-                ##Door method story
-                puts "Going to the #{choice}!"
+                self.door
             end
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
