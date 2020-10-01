@@ -307,4 +307,64 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
+
+    def desk_top
+        prompt = TTY::Prompt.new
+        puts "Description of Desk Top\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_center
+        #locked
+    end
+    def desk_left_top
+        prompt = TTY::Prompt.new
+        puts "Description of Left Top Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_left_bottom
+        prompt = TTY::Prompt.new
+        puts "Description of Left Bottom Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_right_top
+        prompt = TTY::Prompt.new
+        puts "Description of Right Top Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_right_bottom
+        prompt = TTY::Prompt.new
+        puts "Description of Right Bottom Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+
 end
