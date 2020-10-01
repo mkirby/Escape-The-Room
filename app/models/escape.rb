@@ -179,7 +179,7 @@ class Escape < ActiveRecord::Base
 
     def shelves
         prompt = TTY::Prompt.new
-        put "Description of Shelves as a whole\n"
+        puts "Description of Shelves as a whole\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Examine Top Shelf", 1
             menu.choice "Examine Middle Shelf", 2
@@ -188,6 +188,7 @@ class Escape < ActiveRecord::Base
             menu.choice "Return to the middle of the moom", 5
             menu.choice "View Escape Menu", 6
         end
+        system('clear')
         if choice == 1
             self.shelves_top
         elsif choice == 2
@@ -201,17 +202,50 @@ class Escape < ActiveRecord::Base
         elsif choice == 6
             EscapeTheRoom.escape_menu
         end
+    end
 
         def shelves_top
-
+            prompt = TTY::Prompt.new
+            puts "Description of The Top Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
         end
         def shelves_middle
-
+            prompt = TTY::Prompt.new
+            puts "Description of The Middle Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
         end
         def shelves_bottom
-
+            prompt = TTY::Prompt.new
+            puts "Description of The Bottom Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
         end
         def shelves_under
-
+            prompt = TTY::Prompt.new
+            puts "Description of Under The Shelves\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
         end
 end
