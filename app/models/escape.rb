@@ -40,17 +40,16 @@ class Escape < ActiveRecord::Base
     end
 
     def intro
-        ##CHANGE TO ENTER TO CONTINUE TO SEE TEXT
-
         prompt = TTY::Prompt.new
         system('clear')
-        puts "Everything is black..."
-        sleep 1
-        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light."
-        sleep 1
+        puts "Everything is black...\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
-        puts "You begin to open your eyes..."
-        sleep 1
+        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light.\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
+        system('clear')
+        puts "You begin to open your eyes...\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
         puts "\nYou feel the coldness of a cement floor beneath your body, as your eyes adjust to the yellow glow of overhead lights."
         puts "\nYou find yourself laying in a floor to ceiling cage with just enough floor space to lay down."
@@ -63,7 +62,6 @@ class Escape < ActiveRecord::Base
         puts "\nYou can see the front of small safe next to the desk protruding out of the wall from under the staircase."
         puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
         puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
-        
         prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
         self.cage
     end
