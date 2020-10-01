@@ -210,4 +210,9 @@ class EscapeTheRoom
         new_health = @session_character.heath + num
         @session_character.update(health: new_health)
     end
+
+    def self.change_terror(num)
+        new_terror = @session_character.terror + num
+        @session_character.update(terror: new_terror)
+    end
 end
