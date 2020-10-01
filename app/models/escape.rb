@@ -3,47 +3,69 @@ class Escape < ActiveRecord::Base
     has_many :items, through: :records
     has_many :characters, through: :records
 
-    def middle_of_room
-        prompt = TTY::Prompt.new
-        puts "You're now standing in the middle of the basement"
-        sleep 2
-        choice = prompt.select('Where would you like to investigate?', per_page: 8) do |menu|
-            menu.choice "Pool Table"
-            menu.choice "Shelves"
-            menu.choice "Surgical Table"
-            menu.choice "Machine"
-            menu.choice "Bookcase"
-            menu.choice "Desk"
-            menu.choice "Safe"
-            menu.choice "Door up the stairs"
-        end
-        system("clear")
-        if choice == "Pool Table"
+    def where_am_i_load_that_location
+        location = self.where_am_i
+        if location == "Pool Table"
             system("clear")
-            ###Pool Table Method story
-            puts "Going to pool table!"
-        elsif choice == "Shelves"
+            #self.pool_table
+        elsif location == "Shelves"
             system("clear")
             ##Sheleves method story
-        elsif choice == "Surgical Table"
+        elsif location == "Surgical Table"
             system("clear")
             ##Surgical Table method story
-        elsif choice == "Machine"
+        elsif location == "Machine"
             system("clear")
             ##Machine method story
-        elsif choice == "Bookcase"
+        elsif location == "Bookcase"
             system("clear")
             ##Bookcase method story
-        elsif choice == "Desk"
+        elsif location == "Desk"
             system("clear")
             ##Desk method story
-        elsif choice == "Safe"
+        elsif location == "Safe"
             system("clear")
             ##Safe method story
-        elsif choice == "Door up the stairs"
+        elsif location == "Door up the stairs"
             system("clear")
             ##Door method story
-    
+        elsif location == "Middle of Room"
+            system("clear")
+            self.middle_of_room
+        elsif location == "Cage"
+            system("clear")
+            self.cage
+        end
+    end
+
+    def intro
+        ##CHANGE TO ENTER TO CONTINUE TO SEE TEXT
+
+        prompt = TTY::Prompt.new
+        system('clear')
+        puts "Everything is black..."
+        sleep 1
+        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light."
+        sleep 1
+        system('clear')
+        puts "You begin to open your eyes..."
+        sleep 1
+        system('clear')
+        puts "\nYou feel the coldness of a cement floor beneath your body, as your eyes adjust to the yellow glow of overhead lights."
+        puts "\nYou find yourself laying in a floor to ceiling cage with just enough floor space to lay down."
+        puts "\nThe sound of footsteps on the floor above draws your attention to the room outside your cage."
+        puts "\nYour cage is located in the corner of a partially finished basement with no windows to the outside world."
+        puts "\nThere is a pool table hastily pushed into the corner off to your right and a surgical table sitting prominently in middle of the room."
+        puts "\nA broken cue stick rack has dropped several cue sticks that have rolled across the floor."
+        puts "\nA towering machine with two conical spires looms on the far wall between a large wooden desk and a dusty bookcase."
+        puts "\nA steel door is closed at the top of a wooden staircase."
+        puts "\nYou can see the front of small safe next to the desk protruding out of the wall from under the staircase."
+        puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
+        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
+        
+        prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
+        self.cage
+    end
 
     def cage
         prompt = TTY::Prompt.new
@@ -88,8 +110,8 @@ class Escape < ActiveRecord::Base
                     menu.choice "Unlock the cage"
                 end
                 if choice3 == "Unlock the cage"
-                    ###method that moves outside of the cage
-                    puts "leaving the cage need method!"
+                    system('clear')
+                    self.middle_of_room
                 end
             end
                 
@@ -103,37 +125,56 @@ class Escape < ActiveRecord::Base
             self.cage ##Sends back to start of cage story waking up dizzy
 
         elsif choice == "View Escape Menu"
-            puts "escape menu coming soon"
-            ####self.escape_menu
+            EscapeTheRoom.escape_menu
         end
     end
 
-
-
-    def self.intro
+    def middle_of_room
         prompt = TTY::Prompt.new
-        system('clear')
-        puts "Everything is black..."
-        sleep 3
-        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light."
-        sleep 7
-        system('clear')
-        puts "You begin to open your eyes..."
-        sleep 3
-        system('clear')
-        puts "\nYou feel the coldness of a cement floor beneath your body, as your eyes adjust to the yellow glow of overhead lights."
-        puts "\nYou find yourself laying in a floor to ceiling cage with just enough floor space to lay down."
-        puts "\nThe sound of footsteps on the floor above draws your attention to the room outside your cage."
-        puts "\nYour cage is located in the corner of a partially finished basement with no windows to the outside world."
-        puts "\nThere is a pool table hastily pushed into the corner off to your right and a surgical table sitting prominently in middle of the room."
-        puts "\nA broken cue stick rack has dropped several cue sticks that have rolled across the floor."
-        puts "\nA towering machine with two conical spires looms on the far wall between a large wooden desk and a dusty bookcase."
-        puts "\nA steel door is closed at the top of a wooden staircase."
-        puts "\nYou can see the front of small safe next to the desk protruding out of the wall from under the staircase."
-        puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
-        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
-        
-        prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
-        Escape.cage
+        self.update(where_am_i: "Middle of Room")
+        puts "You're currently standing in the middle of the basement\n\n"
+        sleep 2
+        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
+            menu.choice "Pool Table"
+            menu.choice "Shelves"
+            menu.choice "Surgical Table"
+            menu.choice "Machine"
+            menu.choice "Bookcase"
+            menu.choice "Desk"
+            menu.choice "Safe"
+            menu.choice "Door up the stairs"
+            menu.choice "Escape Menu"
+        end
+        system("clear")
+        if choice != "Escape Menu"
+            self.update(where_am_i: "#{choice}")
+            if choice == "Pool Table"
+                ###Pool Table Method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Shelves"
+                ##Sheleves method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Surgical Table"
+                ##Surgical Table method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Machine"
+                ##Machine method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Bookcase"
+                ##Bookcase method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Desk"
+                ##Desk method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Safe"
+                ##Safe method story
+                puts "Going to the #{choice}!"
+            elsif choice == "Door up the stairs"
+                ##Door method story
+                puts "Going to the #{choice}!"
+            end
+        elsif choice == "Escape Menu"
+            EscapeTheRoom.escape_menu
+        end
     end
 end
