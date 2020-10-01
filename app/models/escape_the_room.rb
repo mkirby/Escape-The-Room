@@ -226,4 +226,10 @@ class EscapeTheRoom
             @session_character.update(terror: new_terror) 
         end
     end
+
+    def self.dead
+        puts "#{@session_character} has died."
+        sleep 3
+        EscapeTheRoom.user_menu
+    end
 end
