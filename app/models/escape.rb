@@ -56,8 +56,8 @@ class Escape < ActiveRecord::Base
         puts "\nA metal door is closed at the top of a wooden staircase."
         puts "\nYou can see the front of a small safe next to the desk protruding out of the wall from under the staircase."
         puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
-        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
-        prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
+        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys.\n"
+        prompt.keypress("Press Space Or Enter To Try To Escape...", keys: [:space, :return])
         self.cage
     end
     def knockout_intro
@@ -78,17 +78,29 @@ class Escape < ActiveRecord::Base
             menu.choice "View Escape Menu"
         end
         system("clear")
-        if choice == "Yell for help"
-            ####NEED story of captors beating character up and decreasing health by 3
-            puts "You yell for help and a man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-            EscapeTheRoom.change_health(-3)
-            sleep 3
-            prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-            system("clear")
-            self.cage  ##Sends back to start of cage story of waking up dizzy
-            
-        elsif choice == "Reach for cue stick"
-            EscapeTheRoom.add_character_item("Cue Stick")
+        if choice == "Yell For Help"
+            self.cage_yell
+        elsif choice == "Reach For Cue Stick"
+            self.cage_reach_cue
+        elsif choice == "Reach For Keys"
+            self.cage_reach_keys
+        elsif choice == "View Escape Menu"
+            EscapeTheRoom.escape_menu
+        end
+    end
+    def cage_yell
+        prompt = TTY::Prompt.new
+        ####NEED story of captors beating character up and decreasing health by 3
+        puts "You yell for help and a man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
+        EscapeTheRoom.change_health(-3)
+        sleep 3
+        prompt.keypress("Press space or enter to try again", keys: [:space, :return])
+        system("clear")
+        self.cage  ##Sends back to start of cage story of waking up dizzy
+    end
+    def cage_reach_cue
+        prompt = TTY::Prompt.new
+        EscapeTheRoom.add_character_item("Cue Stick")
             choice2 = prompt.select('You now have a cue stick, what what you like to do with it?') do |menu|
                 menu.choice "Rattle cage and scream for help"
                 menu.choice "Reach for keys with cue stick"
@@ -113,19 +125,16 @@ class Escape < ActiveRecord::Base
                     self.middle_of_room
                 end
             end
-                
-        elsif choice == "Reach for keys"
-            ###Need story of character grabbing keys immediate and hurting arm decreasing health by 1
-            puts "You extend your arms and reach out for the keys\n\nyour fingertips are so close you can feel the chill from the metal.\n\nAHHH!! A bat flies in and tries to perch on your extended arm!\n\nThat's the last thing you remember before fainting from fear\n\n\n"
-            EscapeTheRoom.change_terror(3)
-            sleep 3
-            prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-            system("clear")
-            self.cage ##Sends back to start of cage story waking up dizzy
-
-        elsif choice == "View Escape Menu"
-            EscapeTheRoom.escape_menu
-        end
+    end
+    def cage_reach_keys
+        prompt = TTY::Prompt.new
+        ###Need story of character grabbing keys immediate and hurting arm decreasing health by 1
+        puts "You extend your arms and reach out for the keys\n\nyour fingertips are so close you can feel the chill from the metal.\n\nAHHH!! A bat flies in and tries to perch on your extended arm!\n\nThat's the last thing you remember before fainting from fear\n\n\n"
+        EscapeTheRoom.change_terror(3)
+        sleep 3
+        prompt.keypress("Press space or enter to try again", keys: [:space, :return])
+        system("clear")
+        self.cage ##Sends back to start of cage story waking up dizzy
     end
 
     def middle_of_room
