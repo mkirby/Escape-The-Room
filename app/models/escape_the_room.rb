@@ -205,4 +205,9 @@ class EscapeTheRoom
         item = Item.all.find_by name: item_name
         new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
     end
+
+    def self.change_health(num)
+        new_health = @session_character.heath + num
+        @session_character.update(health: new_health)
+    end
 end
