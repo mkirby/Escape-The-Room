@@ -241,4 +241,8 @@ class EscapeTheRoom
         sleep 3
         EscapeTheRoom.user_menu
     end
+
+    def self.has_item?(item_name)
+        @session_character.items.include?(name: item_name)
+    end
 end
