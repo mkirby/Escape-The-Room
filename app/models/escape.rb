@@ -18,7 +18,6 @@ class Escape < ActiveRecord::Base
             ##Surgical Table method story
         elsif location == "Machine"
             system("clear")
-            ##Machine method story
             self.machine
         elsif location == "Bookcase"
             system("clear")
@@ -28,7 +27,7 @@ class Escape < ActiveRecord::Base
             ##Desk method story
         elsif location == "Safe"
             system("clear")
-            ##Safe method story
+            self.safe
         elsif location == "Door up the stairs"
             system("clear")
             ##Door method story
@@ -157,7 +156,6 @@ class Escape < ActiveRecord::Base
                 ##Surgical Table method story
                 puts "Going to the #{choice}!"
             elsif choice == "Machine"
-                ##Machine method story
                 self.machine
                 puts "Going to the #{choice}!"
             elsif choice == "Bookcase"
@@ -167,7 +165,7 @@ class Escape < ActiveRecord::Base
                 ##Desk method story
                 puts "Going to the #{choice}!"
             elsif choice == "Safe"
-                ##Safe method story
+                self.safe
                 puts "Going to the #{choice}!"
             elsif choice == "Door up the stairs"
                 ##Door method story
@@ -346,4 +344,59 @@ class Escape < ActiveRecord::Base
             self.shelves
         end
     end
+
+    def safe
+        prompt = TTY::Prompt.new
+        puts "You are standing in front of the combination locked safe\n\nprotuding from under the staircase\n" ####### NEEDED
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Find out what's inside the safe"
+            menu.choice "Return to the middle of the room"
+            menu.choice "View Escape Menu"
+        end
+        system('clear')
+        if choice == "Find out what's inside the safe"
+            self.safe_code
+        elsif choice == "Return to the middle of the room"
+            self.middle_of_room
+        elsif choice == "View Escape Menu"
+            EscapeTheRoom.escape_menu
+        end
+    end
+
+    def safe_code
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Key")
+            puts "You place your fingers on the dial and spin to reset the code."
+            choice1 = prompt.ask('The first number you spin the dial to:')
+            choice2 = prompt.ask('The second number you spin the dial to:')
+            choice3 = prompt.ask ('The third number you spin the dial to')
+            combination = choice1 + choice2 + choice3
+            if combination == "031118"
+                puts "You grab the door of the safe and pull...\n\n"
+                sleep 1
+                puts "You feel the door swing open and you look inside...\n\n"
+                sleep 2
+                puts "A SHINY KEY!\n\n"
+                sleep 1
+                puts "You grab the key and towards the door at the top of the staircase with hope..."
+                EscapeTheRoom.add_character_item("Key")
+                prompt.keypress("Press space or enter to go back", keys: [:space, :return])
+                system("clear")
+                self.safe
+            else
+                puts "You grab the door of the safe and pull...\n\n"
+                sleep 1
+                puts "Nothing.\n\nYou think, 'I wonder what the combination could be'"
+                prompt.keypress("Press space or enter to go back", keys: [:space, :return])
+                system("clear")
+                self.safe
+            end
+        else EscapeTheRoom.has_item?("Key")
+            puts "The safe is open and you have the key!\n\nThere is nothing else in here"
+            prompt.keypress("Press space or enter to go back", keys: [:space, :return])
+            system("clear")
+            self.safe
+        end
+    end
+
 end
