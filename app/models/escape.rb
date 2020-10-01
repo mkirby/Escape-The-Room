@@ -90,13 +90,18 @@ class Escape < ActiveRecord::Base
     end
     def cage_yell
         prompt = TTY::Prompt.new
-        ####NEED story of captors beating character up and decreasing health by 3
-        puts "You yell for help and a man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-        EscapeTheRoom.change_health(-3)
-        sleep 3
-        prompt.keypress("Press space or enter to try again", keys: [:space, :return])
+        puts "You yell and scream for help and a crazy looking disheveled older man runs down the stairs towards your cage.\n\n"
+        ##NEED a good exposition
+        puts "Extensive Exposition by your captor better known as DR. FRANKENSTEIN.\n\n"
+        puts "The basement slowly fills with toxic gases and the last thought you remember was sheer terror.\n\n"
+        prompt.keypress("Press Space Or Enter To Wake Up", keys: [:space, :return])
         system("clear")
-        self.cage  ##Sends back to start of cage story of waking up dizzy
+        puts "You have splitting headache and you fear that you'll never escape this room.\n\n"
+        puts "You health has been affected: -3"
+        EscapeTheRoom.change_health(-3)
+        puts "You terror has risen: +2"
+        EscapeTheRoom.change_terror(2)
+        self.knockout_intro
     end
     def cage_reach_cue
         prompt = TTY::Prompt.new
