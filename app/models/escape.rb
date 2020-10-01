@@ -88,8 +88,6 @@ class Escape < ActiveRecord::Base
             self.cage  ##Sends back to start of cage story of waking up dizzy
             
         elsif choice == "Reach for cue stick"
-            #remove the add item
-            Item.create(name: "Cue Stick", description: "It's a cue stick")
             EscapeTheRoom.add_character_item("Cue Stick")
             choice2 = prompt.select('You now have a cue stick, what what you like to do with it?') do |menu|
                 menu.choice "Rattle cage and scream for help"
@@ -105,9 +103,7 @@ class Escape < ActiveRecord::Base
 
             elsif choice2 == "Reach for keys with cue stick"
                 puts "You reach for the keys with the cue stick\n\nMiraculously you are about to get the key ring to slide down\n\nthe cue stick!! You pull the cue stick back into the cage\n\nand grab the keys! FREEDOM!!!"
-                #remove the add item
-                Item.create(name: "Keys", description: "It's keys")
-                EscapeTheRoom.add_character_item("Keys")
+                EscapeTheRoom.add_character_item("Ring of Keys")
                 sleep 3
                 choice3 = prompt.select('You now have the keys, what what you like to do with it?') do |menu|
                     menu.choice "Unlock the cage"
