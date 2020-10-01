@@ -491,7 +491,6 @@ class Escape < ActiveRecord::Base
     def door
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
-            #show regular options
             puts "Description of stairs and door as a whole\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Door", 1
@@ -500,13 +499,17 @@ class Escape < ActiveRecord::Base
             end
             system('clear')
             if choice == 1
-                #examine door
-            elsif choice == 2
-                #bang on door
+                system('clear')
+                puts "more in depth description of door or something spooky"
+                self.door
+            elsif choice == 2 #never a good idea
+                ### SEND TO BACK TO LOCKED IN CAGE
+                system('clear')
+                puts "message about going back to cage"
+                self.cage
             end
         else #this means they have the key
             puts "SPECIAL Description of stairs and door as a whole\n"
-            #show additional menu options to unlock the door
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Quietly Unlock Door", 1
                 menu.choice "Wait I Forgot Something", 2
