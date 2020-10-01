@@ -393,5 +393,26 @@ class Escape < ActiveRecord::Base
             self.desk
         end
     end
+    def desk_journal
+        prompt = TTY::Prompt.new
+        puts "Description of the Journal\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Browse Cover", 1
+            menu.choice "Browse Journal Entries", 2
+            menu.choice "View Back Cover", 3
+            menu.choice "Back", 4
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.view_journal_cover
+        elsif choice == 2
+            #Browse journal entries
+        elsif choice == 3
+            #Browse back cover
+        elsif choice == 4
+            system('clear')
+            self.desk_center
+        end
+    end
 
 end
