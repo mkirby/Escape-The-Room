@@ -561,7 +561,7 @@ class Escape < ActiveRecord::Base
             system('clear')
             if choice == 1
                 #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
-                puts "CONGRADULATIONS YOU ESCAPED!"
+                puts "You open the door from the basement and YOU ESCAPED!"
                 sleep 5
                 EscapeTheRoom.thanks_for_playing
             elsif choice == 2
