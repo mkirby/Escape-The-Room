@@ -36,6 +36,8 @@ class Escape < ActiveRecord::Base
         elsif location == "Cage"
             system("clear")
             self.cage
+        elsif location == "Examine Desk Top"
+            self.desk_top
         end
     end
 
@@ -290,9 +292,10 @@ class Escape < ActiveRecord::Base
         end
         system('clear')
         if choice == 1
+            self.update(where_am_i: "#{choice}")
             self.desk_top
         elsif choice == 2
-            self.desk_center #locked
+            self.desk_center #locked to start
         elsif choice == 3
             self.desk_left_top
         elsif choice == 4
@@ -307,16 +310,23 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
-
     def desk_top
         prompt = TTY::Prompt.new
-        puts "Description of Desk Top\n"
+        puts "The top of the desk is engraved with four mythical symbols:\n\n"
+        #  ╭╯ = ><>  ╭╮ = ~(‾▿‾)~ ╰╯  = ˁ˚ᴥ˚ˀ
+        puts "><>  ╭╯\n\n"
+        puts "~(‾▿‾)~  ╭╮\n\n"
+        puts "<:======  ╰╮\n\n"
+        puts "ˁ˚ᴥ˚ˀ  ╰╯\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
+            menu.choice "View Escape Menu", 2
         end
         system('clear')
         if choice == 1
             self.desk
+        elsif choice == 2
+            EscapeTheRoom.escape_menu
         end
     end
     def desk_center
