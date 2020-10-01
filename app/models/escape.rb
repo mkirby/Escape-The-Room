@@ -231,11 +231,12 @@ class Escape < ActiveRecord::Base
         print ".\n\n"
         sleep 0.5
         puts "As the machine grumbles on you think you hear an audible click from the desk to your left before the sparks of electricity coming off the machine's spires draw your attention.\n\n"
-        prompt.keypress("Press Space or enter to go back", keys: [:space, :return])
+        prompt.keypress("Return to the Machine", keys: [:space, :return])
         system("clear")
         self.machine
     end
     def machine_incorrect_code
+        prompt = TTY::Prompt.new
         EscapeTheRoom.change_machine_powered_on_status_to(false)
         puts "'ACCESS DENIED!'\n\n"
         puts "An electric shock zaps you.\n\n"
