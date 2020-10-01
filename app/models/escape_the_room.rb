@@ -1,3 +1,4 @@
+
 class EscapeTheRoom
     #this is our CLI class with @session_user and @session_character
     #line 86 error
@@ -202,8 +203,12 @@ class EscapeTheRoom
 
 
     def self.add_character_item(item_name)
-        item = Item.all.find_by name: item_name
-        new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+        if !self.has_item?(item_name)
+            item = Item.all.find_by name: item_name
+            new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+        else
+            @session_character.items.find_by name: item_name
+        end
     end
 
     def self.change_health(num)
@@ -240,5 +245,33 @@ class EscapeTheRoom
         puts "#{@session_character.name} has gone insane."
         sleep 3
         EscapeTheRoom.user_menu
+    end
+
+    def self.has_item?(item_name)
+        @session_character.items.map { |item| item.name == item_name}.include?(true)
+    end
+
+    def self.view_bible_passage
+        pastel = Pastel.new
+        prompt = TTY::Prompt.new
+        print "And the evening and the morning were the fifth day. And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so. And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good. And God said, Let us make man in our image, after our likeness: and let them have dominion over the "
+        print pastel.red"fish"
+        print " of the sea, and over the "
+        print pastel.red"fowl"
+        print " of the air, and over the "
+        print pastel.red"cattle"
+        puts ", and over all the earth, and over every creeping thing that creepeth upon the earth. So God created man in his own image, in the image of God created he him; male and female created he them. And God blessed them, and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it: and have dominion over the fish of the sea, and over the fowl of the air, and over every living thing that moveth upon the earth. And God said, Behold, I have given you every herb bearing seed, which is upon the face of all the earth, and every tree, in the which is the fruit of a tree yielding seed; to you it shall be for meat.\n\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Take the Bible", 1
+            menu.choice "Back", 2
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.add_character_item("Bible")
+            @session_character.escapes.first.shelves_bottom
+        elsif choice == 2
+            system('clear')
+            @session_character.escapes.first.shelves_bible
+        end
     end
 end

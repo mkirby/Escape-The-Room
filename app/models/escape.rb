@@ -1,4 +1,5 @@
 require 'pry'
+require "pastel"
 class Escape < ActiveRecord::Base
     has_many :records
     has_many :items, through: :records
@@ -11,7 +12,7 @@ class Escape < ActiveRecord::Base
             #self.pool_table
         elsif location == "Shelves"
             system("clear")
-            ##Sheleves method story
+            self.shelves
         elsif location == "Surgical Table"
             system("clear")
             ##Surgical Table method story
@@ -41,17 +42,16 @@ class Escape < ActiveRecord::Base
     end
 
     def intro
-        ##CHANGE TO ENTER TO CONTINUE TO SEE TEXT
-
         prompt = TTY::Prompt.new
         system('clear')
-        puts "Everything is black..."
-        sleep 1
-        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light."
-        sleep 1
+        puts "Everything is black...\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
-        puts "You begin to open your eyes..."
-        sleep 1
+        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light.\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
+        system('clear')
+        puts "You begin to open your eyes...\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
         puts "\nYou feel the coldness of a cement floor beneath your body, as your eyes adjust to the yellow glow of overhead lights."
         puts "\nYou find yourself laying in a floor to ceiling cage with just enough floor space to lay down."
@@ -64,7 +64,6 @@ class Escape < ActiveRecord::Base
         puts "\nYou can see the front of small safe next to the desk protruding out of the wall from under the staircase."
         puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
         puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
-        
         prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
         self.cage
     end
@@ -153,8 +152,7 @@ class Escape < ActiveRecord::Base
                 ###Pool Table Method story
                 puts "Going to the #{choice}!"
             elsif choice == "Shelves"
-                ##Sheleves method story
-                puts "Going to the #{choice}!"
+                self.shelves
             elsif choice == "Surgical Table"
                 ##Surgical Table method story
                 puts "Going to the #{choice}!"
@@ -245,5 +243,107 @@ class Escape < ActiveRecord::Base
             sleep 2
             system("clear")
             self.machine
+    end
+
+    def shelves
+        prompt = TTY::Prompt.new
+        puts "Description of Shelves as a whole\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Examine Top Shelf", 1
+            menu.choice "Examine Middle Shelf", 2
+            menu.choice "Examine Bottom Shelf", 3
+            menu.choice "Examine under the Shelves", 4
+            menu.choice "Return to the middle of the room", 5
+            menu.choice "View Escape Menu", 6
+        end
+        system('clear')
+        if choice == 1
+            self.shelves_top
+        elsif choice == 2
+            self.shelves_middle
+        elsif choice == 3
+            self.shelves_bottom
+        elsif choice == 4
+            self.shelves_under
+        elsif choice == 5
+            self.middle_of_room
+        elsif choice == 6
+            EscapeTheRoom.escape_menu
+        end
+    end
+    def shelves_top
+        prompt = TTY::Prompt.new
+        puts "Description of The Top Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+    def shelves_middle
+        prompt = TTY::Prompt.new
+        puts "Description of The Middle Shelf\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+    def shelves_bottom
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Bible")
+            puts "Description of The Bottom Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Bible", 1
+                menu.choice "Back", 2
+            end
+            system('clear')
+            if choice == 1
+                self.shelves_bible
+            elsif choice == 2
+                self.shelves
+            end
+        else
+            puts "Description of The Bottom Shelf WITHOUT Bible\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
+        end
+
+    end
+    def shelves_under
+        prompt = TTY::Prompt.new
+        puts "Description of Under The Shelves\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.shelves
+        end
+    end
+
+    def shelves_bible
+        prompt = TTY::Prompt.new
+        puts "Description of Under The Bibles\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "View Creased Passage", 1
+            menu.choice "Back", 2
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.view_bible_passage
+        elsif choice == 2
+            system('clear')
+            self.shelves
+        end
     end
 end
