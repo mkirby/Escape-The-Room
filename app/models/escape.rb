@@ -227,17 +227,31 @@ class Escape < ActiveRecord::Base
     end
     def shelves_bottom
         prompt = TTY::Prompt.new
-        puts "Description of The Bottom Shelf\n"
-        choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Examine Bible", 1
-            menu.choice "Back", 2
+        #dont have it the bible
+        #reach helper method
+        if !
+            puts "Description of The Bottom Shelf\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Bible", 1
+                menu.choice "Back", 2
+            end
+            system('clear')
+            if choice == 1
+                self.shelves_bible
+            elsif choice == 2
+                self.shelves
+            end
+        else
+            puts "Description of The Bottom Shelf WITHOUT Bible\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Back", 1
+            end
+            system('clear')
+            if choice == 1
+                self.shelves
+            end
         end
-        system('clear')
-        if choice == 1
-            self.shelves_bible
-        elsif choice == 2
-            self.shelves
-        end
+
     end
     def shelves_under
         prompt = TTY::Prompt.new
