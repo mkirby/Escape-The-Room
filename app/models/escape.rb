@@ -171,21 +171,37 @@ class Escape < ActiveRecord::Base
         self.reload.machine_on
         if machine_on == true
             puts "You're standing in front of the machine as it buzzes and crackles with sparks of electricity.\n\nIt's full of life.\n\n"
+            choice = prompt.select('Where would you like to investigate?') do |menu|
+                menu.choice "Turn Off The Machine"
+                menu.choice "Return To The Middle Of The Room"
+                menu.choice "Escape Menu"
+            end
+            system("clear")
+            if choice == "Turn Off The Machine"
+                EscapeTheRoom.change_machine_powered_on_status_to(false)
+                self.machine
+            elsif choice == "Return To The Middle Of The Room"
+                self.middle_of_room
+            elsif choice == "Escape Menu"
+                EscapeTheRoom.escape_menu
+            end
         elsif machine_on == false
             puts "You're standing in front of the quiet machine with two conical spires and a dimly illuminated keypad asking for an access code.\n\n'What could this thing possibly be for??'\n\n"
-        end
-        choice = prompt.select('Where would you like to investigate?') do |menu|
-            menu.choice "Enter Access Code"
-            menu.choice "Return To The Middle Of The Room"
-            menu.choice "Escape Menu"
-        end
-        system("clear")
-        if choice == "Enter Access Code"
-            self.machine_access_code
-        elsif choice == "Return To The Middle Of The Room"
-            self.middle_of_room
-        elsif choice == "Escape Menu"
-            EscapeTheRoom.escape_menu
+            choice = prompt.select('Where would you like to investigate?') do |menu|
+                menu.choice "Enter Access Code"
+                menu.choice "Return To The Middle Of The Room"
+                menu.choice "Escape Menu"
+            end
+            system("clear")
+            if choice == "Enter Access Code"
+                self.machine_access_code
+            elsif choice == "Return To The Middle Of The Room"
+                self.middle_of_room
+            elsif choice == "Escape Menu"
+                EscapeTheRoom.escape_menu
+            end
+        else
+            puts "machine_on not updating correctly - find error"
         end
     end
     def machine_access_code
