@@ -39,7 +39,7 @@ class Escape < ActiveRecord::Base
         puts "Everything is black...\n\n"
         prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
-        puts "\nYour head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light.\n\n"
+        puts "Your head feels clouded as if your thoughts swim through a fog. You try to open your eyes but your vision swims with pulsing, painful light.\n\n"
         prompt.keypress("Continue", keys: [:space, :return])
         system('clear')
         puts "You begin to open your eyes...\n\n"
@@ -344,7 +344,6 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
-
     def safe_code
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
