@@ -81,7 +81,7 @@ class Escape < ActiveRecord::Base
         if choice == "Yell for help"
             ####NEED story of captors beating character up and decreasing health by 3
             puts "You yell for help and a man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-            ##character.health =- 3
+            EscapeTheRoom.change_health(-3)
             sleep 3
             prompt.keypress("Press space or enter to try again", keys: [:space, :return])
             system("clear")

@@ -229,13 +229,15 @@ class EscapeTheRoom
     end
 
     def self.dead
-        puts "#{@session_character} has died."
+        system('clear')
+        puts "#{@session_character.name} has died."
         sleep 3
         EscapeTheRoom.user_menu
     end
 
     def self.insane
-        puts "#{@session_character} has gone insane."
+        system('clear')
+        puts "#{@session_character.name} has gone insane."
         sleep 3
         EscapeTheRoom.user_menu
     end
