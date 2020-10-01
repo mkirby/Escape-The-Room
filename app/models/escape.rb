@@ -201,4 +201,17 @@ class Escape < ActiveRecord::Base
         elsif choice = 6
             EscapeTheRoom.escape_menu
         end
+
+        def shelves_top
+            
+        end
+        def shelves_middle
+
+        end
+        def shelves_bottom
+
+        end
+        def shelves_under
+
+        end
 end
