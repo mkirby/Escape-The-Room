@@ -17,7 +17,7 @@ class Escape < ActiveRecord::Base
             ##Surgical Table method story
         elsif location == "Machine"
             system("clear")
-            ##Machine method story
+            self.machine
         elsif location == "Bookcase"
             system("clear")
             ##Bookcase method story
@@ -67,7 +67,6 @@ class Escape < ActiveRecord::Base
         prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
         self.cage
     end
-
     def cage
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Cage")
@@ -157,8 +156,7 @@ class Escape < ActiveRecord::Base
                 ##Surgical Table method story
                 puts "Going to the #{choice}!"
             elsif choice == "Machine"
-                ##Machine method story
-                puts "Going to the #{choice}!"
+                self.machine
             elsif choice == "Bookcase"
                 ##Bookcase method story
                 puts "Going to the #{choice}!"
