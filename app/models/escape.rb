@@ -534,25 +534,26 @@ class Escape < ActiveRecord::Base
     def door
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
-            puts "Description of stairs and door as a whole\n"
+            puts "You're standing at the top of the staircase and infront of you is a strudy metal door.\n\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Door", 1
                 menu.choice "Bang on Door", 2
-                menu.choice "Back",3
+                menu.choice "Back", 3
             end
             system('clear')
             if choice == 1
                 system('clear')
-                puts "more in depth description of door or something spooky"
+                puts "There are no visible gaps between the door and it's hinges. A small shiny key hole sits below the door handle. None of the keys on the ring fit in this lock.\n\n"
                 self.door
-            elsif choice == 2 #never a good idea
-                ### SEND TO BACK TO LOCKED IN CAGE
+            elsif choice == 2
                 system('clear')
-                puts "message about going back to cage"
-                self.cage
+                puts "You bang on the door repeatedly over and over and your pleas for mercy go unanswered. Suddenly electricity flows through every inch of your body and you faint...\n\n"
+                self.knockout_intro
+            elsif choice == 3
+                self.middle_of_room
             end
         else #this means they have the key
-            puts "SPECIAL Description of stairs and door as a whole\n"
+            puts "The shiny key felt heavy in your hand as you slowly ascended the stairs. All you can hope is that you can make it out to the street. Everything after right now is luck.\n\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Quietly Unlock Door", 1
                 menu.choice "Wait I Forgot Something", 2
@@ -560,7 +561,9 @@ class Escape < ActiveRecord::Base
             system('clear')
             if choice == 1
                 #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
-                puts "Go to CONGRADULATIONS YOU ESCAPED!"
+                puts "CONGRADULATIONS YOU ESCAPED!"
+                sleep 5
+                EscapeTheRoom.user_menu
             elsif choice == 2
                 self.middle_of_room
             end
