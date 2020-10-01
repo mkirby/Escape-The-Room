@@ -203,8 +203,12 @@ class EscapeTheRoom
 
 
     def self.add_character_item(item_name)
-        item = Item.all.find_by name: item_name
-        new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+        if !self.has_item?(item_name)
+            item = Item.all.find_by name: item_name
+            new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+        else
+            @session_character.items.find_by name: item_name
+        end
     end
 
     def self.change_health(num)
