@@ -1,4 +1,4 @@
-class CreateExcapesTable < ActiveRecord::Migration[6.0]
+class CreateEscapesTable < ActiveRecord::Migration[6.0]
   def change
       create_table :escapes do |t|
         t.string :name

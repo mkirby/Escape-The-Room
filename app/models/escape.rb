@@ -1,3 +1,4 @@
+require 'pry'
 require "pastel"
 class Escape < ActiveRecord::Base
     has_many :records
@@ -18,6 +19,7 @@ class Escape < ActiveRecord::Base
         elsif location == "Machine"
             system("clear")
             ##Machine method story
+            self.machine
         elsif location == "Bookcase"
             system("clear")
             ##Bookcase method story
@@ -156,6 +158,7 @@ class Escape < ActiveRecord::Base
                 puts "Going to the #{choice}!"
             elsif choice == "Machine"
                 ##Machine method story
+                self.machine
                 puts "Going to the #{choice}!"
             elsif choice == "Bookcase"
                 ##Bookcase method story
@@ -173,6 +176,73 @@ class Escape < ActiveRecord::Base
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
         end
+    end
+
+
+    def machine
+        prompt = TTY::Prompt.new
+        self.reload.machine_on
+        if machine_on == true
+            puts "You walk up to the buzzing machine.\n\nIt's full of life.\n\nThe desk nearby is suddenly humming away..."
+        elsif machine_on == false
+            puts "You walk up to the machine with two conical spires and a keypad.\n\nYou think, 'What could this thing possibly be for??'\n\n"
+        end
+        sleep 1
+        
+        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
+            menu.choice "Enter access code"
+            menu.choice "Go back to middle of room"
+            menu.choice "Escape Menu"
+        end
+        system("clear")
+
+        if choice == "Enter access code"
+            self.machine_access_code
+        elsif choice == "Go back to middle of room"
+            self.middle_of_room
+        elsif choice == "Escape Menu"
+            EscapeTheRoom.escape_menu
+        end
+    end
+
+
+    def machine_access_code
+        prompt = TTY::Prompt.new
+        puts "The machine has four buttons and it looks like it takes 3 inputs"
+        choices = ["╭╯", "╭╮", "╰╮", "╰╯"]
+        choice1 = prompt.select("Enter the first symbol", choices)
+        choice2 = prompt.select("Enter the second symbol", choices)
+        choice3 = prompt.select("Enter the third symbol", choices)
+        enter_code = choice1 + choice2 + choice3
+        if enter_code  == "╭╯╭╮╰╯"
+            self.machine_correct_code
+        else 
+            self.machine_incorrect_code
+        end
+    end
+
+    def machine_correct_code
+        prompt = TTY::Prompt.new
+        self.update(machine_on: true)
+            puts "'ACCESS GRANTED...'\n\n"
+            sleep 2
+            puts "You hear the machine start to turn on\n\n"
+            sleep 2
+            prompt.keypress("Press space or enter to go back", keys: [:space, :return])
+            system("clear")
+            self.machine
+    end
+
+    def machine_incorrect_code
+        self.update(machine_on: false)
+            puts "'ACCESS DENIED!'\n\n"
+            puts "An electric shock zaps you"
+            sleep 1
+            EscapeTheRoom.change_health(-1)
+            puts "Your health has been affected: -1"
+            sleep 2
+            system("clear")
+            self.machine
     end
 
     def shelves
