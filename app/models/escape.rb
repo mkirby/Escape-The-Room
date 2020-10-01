@@ -10,7 +10,7 @@ class Escape < ActiveRecord::Base
             #self.pool_table
         elsif location == "Shelves"
             system("clear")
-            ##Sheleves method story
+            self.shelves
         elsif location == "Surgical Table"
             system("clear")
             ##Surgical Table method story
@@ -184,7 +184,7 @@ class Escape < ActiveRecord::Base
             menu.choice "Examine Middle Shelf", 2
             menu.choice "Examine Bottom Shelf", 3
             menu.choice "Examine under the Shelves", 4
-            menu.choice "Return to the middle of the moom", 5
+            menu.choice "Return to the middle of the room", 5
             menu.choice "View Escape Menu", 6
         end
         system('clear')
@@ -202,7 +202,6 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
-
     def shelves_top
         prompt = TTY::Prompt.new
         puts "Description of The Top Shelf\n"
@@ -227,9 +226,7 @@ class Escape < ActiveRecord::Base
     end
     def shelves_bottom
         prompt = TTY::Prompt.new
-        #dont have it the bible
-        #reach helper method
-        if !
+        if !EscapeTheRoom.has_item?("Bible")
             puts "Description of The Bottom Shelf\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Bible", 1
