@@ -390,15 +390,16 @@ class Escape < ActiveRecord::Base
 
     def desk
         prompt = TTY::Prompt.new
-        puts "Description of Desk as a whole\n"
+        puts "Description of Desk as a whole: You are standing in front of a metal desk.\n\nThere are five drawers.\n\nTwo on the left, two on the right, on one in the center.\n\n 'Hmmm, I wonder what could be in these drawers?'\n\n"
+        sleep 1
         choice = prompt.select('Choose an option', per_page: 8) do |menu|
-            menu.choice "Examine Desk Top", 1
-            menu.choice "Examine Center Drawer", 2
-            menu.choice "Examine Left Top Drawer", 3
-            menu.choice "Examine Left Bottom Drawer", 4
-            menu.choice "Examine Left Top Drawer", 5
-            menu.choice "Examine Left Bottom Drawer", 6
-            menu.choice "Return to the middle of the room", 7
+            menu.choice "Examine Desk Top\n", 1
+            menu.choice "Examine Center Drawer\n", 2
+            menu.choice "Examine Left Top Drawer\n", 3
+            menu.choice "Examine Left Bottom Drawer\n", 4
+            menu.choice "Examine Right Top Drawer\n", 5
+            menu.choice "Examine Right Bottom Drawer\n", 6
+            menu.choice "Return to the middle of the room\n", 7
             menu.choice "View Escape Menu", 8
         end
         system('clear')
