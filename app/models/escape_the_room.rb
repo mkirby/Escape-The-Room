@@ -232,4 +232,10 @@ class EscapeTheRoom
         sleep 3
         EscapeTheRoom.user_menu
     end
+
+    def self.insane
+        puts "#{@session_character} has gone insane."
+        sleep 3
+        EscapeTheRoom.user_menu
+    end
 end
