@@ -248,7 +248,7 @@ class EscapeTheRoom
     end
 
     def self.has_item?(item_name)
-        @session_character.items.include?(name: item_name)
+        @session_character.items.map { |item| item.name == item_name}.include?(true)
     end
 
     def self.view_bible_passage

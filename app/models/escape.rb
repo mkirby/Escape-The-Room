@@ -227,7 +227,7 @@ class Escape < ActiveRecord::Base
     end
     def shelves_bottom
         prompt = TTY::Prompt.new
-        if !EscapeTheRoom.has_item?("Bible")
+        if EscapeTheRoom.has_item?("Bible")
             puts "Description of The Bottom Shelf\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Bible", 1
