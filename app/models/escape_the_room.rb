@@ -196,4 +196,49 @@ class EscapeTheRoom
         end
     end
 
+
+    # █ █▄░█   █▀▀ ▄▀█ █▀▄▀█ █▀▀   █░█ █▀▀ █░░ █▀█ █▀▀ █▀█ █▀
+    # █ █░▀█   █▄█ █▀█ █░▀░█ ██▄   █▀█ ██▄ █▄▄ █▀▀ ██▄ █▀▄ ▄█
+
+
+    def self.add_character_item(item_name)
+        item = Item.all.find_by name: item_name
+        new_record = Record.create(character_id: @session_character.id, item_id: item.id, item_used?: false)
+    end
+
+    def self.change_health(num)
+        new_health = @session_character.health + num
+        if new_health > 10
+            @session_character.update(health: 10)
+        elsif new_health <= 0
+            EscapeTheRoom.dead
+        else
+            @session_character.update(health: new_health) 
+        end
+    end
+
+    def self.change_terror(num)
+        new_terror = @session_character.terror + num
+        if new_terror >= 10
+            EscapeTheRoom.insane
+        elsif new_terror < 0
+            @session_character.update(terror: 0)
+        else
+            @session_character.update(terror: new_terror) 
+        end
+    end
+
+    def self.dead
+        system('clear')
+        puts "#{@session_character.name} has died."
+        sleep 3
+        EscapeTheRoom.user_menu
+    end
+
+    def self.insane
+        system('clear')
+        puts "#{@session_character.name} has gone insane."
+        sleep 3
+        EscapeTheRoom.user_menu
+    end
 end
