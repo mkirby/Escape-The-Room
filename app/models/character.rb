@@ -19,7 +19,7 @@ class Character < ActiveRecord::Base
         system('clear')
         ## NEED
         ##IF CHARACTER HAS NO ITEM SAY SO
-        self.items.map do |item|
+        self.items.reload.map do |item|
             puts "#{item.name} - '#{item.description}'"
         end
         prompt.keypress("Return", keys: [:space, :return])
