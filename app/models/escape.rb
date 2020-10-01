@@ -24,19 +24,21 @@ class Escape < ActiveRecord::Base
             ##Bookcase method story
         elsif location == "Desk"
             system("clear")
-            ##Desk method story
+            self.desk
         elsif location == "Safe"
             system("clear")
             self.safe
         elsif location == "Door up the stairs"
             system("clear")
-            ##Door method story
+            self.door
         elsif location == "Middle of Room"
             system("clear")
             self.middle_of_room
         elsif location == "Cage"
             system("clear")
             self.cage
+        elsif location == "Examine Desk Top"
+            self.desk_top
         end
     end
 
@@ -66,7 +68,6 @@ class Escape < ActiveRecord::Base
         prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
         self.cage
     end
-
     def cage
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Cage")
@@ -157,25 +158,20 @@ class Escape < ActiveRecord::Base
                 puts "Going to the #{choice}!"
             elsif choice == "Machine"
                 self.machine
-                puts "Going to the #{choice}!"
             elsif choice == "Bookcase"
                 ##Bookcase method story
                 puts "Going to the #{choice}!"
             elsif choice == "Desk"
-                ##Desk method story
-                puts "Going to the #{choice}!"
+                self.desk
             elsif choice == "Safe"
                 self.safe
-                puts "Going to the #{choice}!"
             elsif choice == "Door up the stairs"
-                ##Door method story
-                puts "Going to the #{choice}!"
+                self.door
             end
         elsif choice == "Escape Menu"
             EscapeTheRoom.escape_menu
         end
     end
-
 
     def machine
         prompt = TTY::Prompt.new
@@ -202,8 +198,6 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.escape_menu
         end
     end
-
-
     def machine_access_code
         prompt = TTY::Prompt.new
         puts "The machine has four buttons and it looks like it takes 3 inputs"
@@ -218,7 +212,6 @@ class Escape < ActiveRecord::Base
             self.machine_incorrect_code
         end
     end
-
     def machine_correct_code
         prompt = TTY::Prompt.new
         self.update(machine_on: true)
@@ -230,7 +223,6 @@ class Escape < ActiveRecord::Base
             system("clear")
             self.machine
     end
-
     def machine_incorrect_code
         self.update(machine_on: false)
             puts "'ACCESS DENIED!'\n\n"
@@ -242,7 +234,7 @@ class Escape < ActiveRecord::Base
             system("clear")
             self.machine
     end
-
+    
     def shelves
         prompt = TTY::Prompt.new
         puts "Description of Shelves as a whole\n"
@@ -328,7 +320,6 @@ class Escape < ActiveRecord::Base
             self.shelves
         end
     end
-
     def shelves_bible
         prompt = TTY::Prompt.new
         puts "Description of Under The Bibles\n"
@@ -399,4 +390,188 @@ class Escape < ActiveRecord::Base
         end
     end
 
+    def desk
+        prompt = TTY::Prompt.new
+        puts "Description of Desk as a whole\n"
+        choice = prompt.select('Choose an option', per_page: 8) do |menu|
+            menu.choice "Examine Desk Top", 1
+            menu.choice "Examine Center Drawer", 2
+            menu.choice "Examine Left Top Drawer", 3
+            menu.choice "Examine Left Bottom Drawer", 4
+            menu.choice "Examine Left Top Drawer", 5
+            menu.choice "Examine Left Bottom Drawer", 6
+            menu.choice "Return to the middle of the room", 7
+            menu.choice "View Escape Menu", 8
+        end
+        system('clear')
+        if choice == 1
+            self.update(where_am_i: "#{choice}")
+            self.desk_top
+        elsif choice == 2
+            self.desk_center #locked to start
+        elsif choice == 3
+            self.desk_left_top
+        elsif choice == 4
+            self.desk_left_bottom
+        elsif choice == 5
+            self.desk_right_top
+        elsif choice == 6
+            self.desk_right_bottom
+        elsif choice == 7
+            self.middle_of_room
+        elsif choice == 8
+            EscapeTheRoom.escape_menu
+        end
+    end
+    def desk_top
+        prompt = TTY::Prompt.new
+        puts "The top of the desk is engraved with four mythical symbols:\n\n"
+        #  ╭╯ = ><>  ╭╮ = ~(‾▿‾)~ ╰╯  = ˁ˚ᴥ˚ˀ
+        puts "><>  ╭╯\n\n"
+        puts "~(‾▿‾)~  ╭╮\n\n"
+        puts "<:======  ╰╮\n\n"
+        puts "ˁ˚ᴥ˚ˀ  ╰╯\n\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+            menu.choice "View Escape Menu", 2
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        elsif choice == 2
+            EscapeTheRoom.escape_menu
+        end
+    end
+    def desk_center
+        prompt = TTY::Prompt.new
+        if self.machine_on #true
+            put "Descrition of opened drawer\n"
+            if !EscapeTheRoom.has_item?("Journal")
+                choice = prompt.select('Choose an option') do |menu|
+                    menu.choice "View Journal", 1
+                    menu.choice "Back"
+                end
+                system('clear')
+                if choice == 1
+                    self.desk_journal
+                elsif choice == 2
+                    self.desk
+                end
+            else
+                puts "Description of opened drawer WITHOUT Journal\n"
+                choice = prompt.select('Choose an option') do |menu|
+                    menu.choice "Back", 1
+                end
+                system('clear')
+                if choice == 1
+                    self.desk
+                end
+            end
+        else ## false
+            puts "The drawer is locked tight and has no noticable keyhole."
+            self.desk
+        end
+    end
+    def desk_left_top
+        prompt = TTY::Prompt.new
+        puts "Description of Left Top Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_left_bottom
+        prompt = TTY::Prompt.new
+        puts "Description of Left Bottom Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_right_top
+        prompt = TTY::Prompt.new
+        puts "Description of Right Top Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_right_bottom
+        prompt = TTY::Prompt.new
+        puts "Description of Right Bottom Drawer\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Back", 1
+        end
+        system('clear')
+        if choice == 1
+            self.desk
+        end
+    end
+    def desk_journal
+        prompt = TTY::Prompt.new
+        puts "Description of the Journal\n"
+        choice = prompt.select('Choose an option') do |menu|
+            menu.choice "Browse Cover", 1
+            menu.choice "Browse Journal Entries", 2
+            menu.choice "View Back Cover", 3
+            menu.choice "Back", 4
+        end
+        system('clear')
+        if choice == 1
+            EscapeTheRoom.view_journal_cover
+        elsif choice == 2
+            puts "You flip through the journal for any signs of helpful information. Everything contained within the journal just seems like the ramblings of a mad man.\n"
+            self.desk_journal
+        elsif choice == 3
+            puts "The back cover of the journal is covered in many water ring stains as if it's regularly used as a coaster.\n"
+            self.desk_journal
+        elsif choice == 4
+            system('clear')
+            self.desk_center
+        end
+    end
+
+    def door
+        prompt = TTY::Prompt.new
+        if !EscapeTheRoom.has_item?("Key")
+            puts "Description of stairs and door as a whole\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Examine Door", 1
+                menu.choice "Bang on Door", 2
+                menu.choice "Back",3
+            end
+            system('clear')
+            if choice == 1
+                system('clear')
+                puts "more in depth description of door or something spooky"
+                self.door
+            elsif choice == 2 #never a good idea
+                ### SEND TO BACK TO LOCKED IN CAGE
+                system('clear')
+                puts "message about going back to cage"
+                self.cage
+            end
+        else #this means they have the key
+            puts "SPECIAL Description of stairs and door as a whole\n"
+            choice = prompt.select('Choose an option') do |menu|
+                menu.choice "Quietly Unlock Door", 1
+                menu.choice "Wait I Forgot Something", 2
+            end
+            system('clear')
+            if choice == 1
+                #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
+            elsif choice == 2
+                self.middle_of_room
+            end
+        end
+    end
 end
