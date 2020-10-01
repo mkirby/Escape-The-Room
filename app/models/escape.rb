@@ -188,22 +188,22 @@ class Escape < ActiveRecord::Base
             menu.choice "Return to the middle of the moom", 5
             menu.choice "View Escape Menu", 6
         end
-        if choice = 1
+        if choice == 1
             self.shelves_top
-        elsif choice = 2
+        elsif choice == 2
             self.shelves_middle
-        elsif choice = 3
+        elsif choice == 3
             self.shelves_bottom
-        elsif choice = 4
+        elsif choice == 4
             self.shelves_under
-        elsif choice = 5
+        elsif choice == 5
             self.middle_of_room
-        elsif choice = 6
+        elsif choice == 6
             EscapeTheRoom.escape_menu
         end
 
         def shelves_top
-            
+
         end
         def shelves_middle
 
