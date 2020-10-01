@@ -60,6 +60,13 @@ class Escape < ActiveRecord::Base
         prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
         self.cage
     end
+    def knockout_intro
+        prompt = TTY::Prompt.new
+        puts "Your vision is blurry as you come to. You sit up to find yourself LOCKED BACK IN THE CAGE!\n\n"
+        prompt.keypress("Begin Your Escape Again", keys: [:space, :return])
+        system('clear')
+        self.cage
+    end
     def cage
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Cage")
