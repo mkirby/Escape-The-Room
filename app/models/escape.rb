@@ -7,35 +7,26 @@ class Escape < ActiveRecord::Base
 
     def where_am_i_load_that_location
         location = self.where_am_i
+        system("clear")
         if location == "Pool Table"
-            system("clear")
             #self.pool_table
         elsif location == "Shelves"
-            system("clear")
             self.shelves
         elsif location == "Surgical Table"
-            system("clear")
             ##Surgical Table method story
         elsif location == "Machine"
-            system("clear")
             self.machine
         elsif location == "Bookcase"
-            system("clear")
             ##Bookcase method story
         elsif location == "Desk"
-            system("clear")
             self.desk
         elsif location == "Safe"
-            system("clear")
             self.safe
         elsif location == "Door up the stairs"
-            system("clear")
             self.door
         elsif location == "Middle of Room"
-            system("clear")
             self.middle_of_room
         elsif location == "Cage"
-            system("clear")
             self.cage
         elsif location == "Examine Desk Top"
             self.desk_top
