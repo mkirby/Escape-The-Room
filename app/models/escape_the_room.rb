@@ -218,7 +218,12 @@ class EscapeTheRoom
     end
 
     def self.change_terror(num)
-        new_terror = @session_character.terror + num
-        @session_character.update(terror: new_terror)
+        if new_terror > 10
+            EscapeTheRoom.insane
+        elsif new_terror <= 0
+            @session_character.update(terror: 0)
+        else
+            @session_character.update(terror: new_terror) 
+        end
     end
 end
