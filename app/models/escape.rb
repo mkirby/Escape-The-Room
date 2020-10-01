@@ -406,9 +406,11 @@ class Escape < ActiveRecord::Base
         if choice == 1
             EscapeTheRoom.view_journal_cover
         elsif choice == 2
-            #Browse journal entries
+            puts "You flip through the journal for any signs of helpful information. Everything contained within the journal just seems like the ramblings of a mad man.\n"
+            self.desk_journal
         elsif choice == 3
-            #Browse back cover
+            puts "The back cover of the journal is covered in many water ring stains as if it's regularly used as a coaster.\n"
+            self.desk_journal
         elsif choice == 4
             system('clear')
             self.desk_center
