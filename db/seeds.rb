@@ -7,7 +7,7 @@ Character.create(name: 'Lily', user_id: 2)
 Character.create(name: 'Groggy', user_id: 3)
 Character.create(name: 'Pauly', user_id: 3)
 
-Item.create(name: "Rings of Keys", description: "A ring of worn brass keys")
+Item.create(name: "Ring of Keys", description: "A ring of worn brass keys")
 Item.create(name: "Cue Stick", description: "A old pool cue stick")
 Item.create(name: "Key", description: "Shiny Brass Key")
 Item.create(name: "Journal", description: "All the pages are torn out")
