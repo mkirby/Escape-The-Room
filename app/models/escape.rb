@@ -563,7 +563,7 @@ class Escape < ActiveRecord::Base
                 #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
                 puts "CONGRADULATIONS YOU ESCAPED!"
                 sleep 5
-                EscapeTheRoom.user_menu
+                EscapeTheRoom.thanks_for_playing
             elsif choice == 2
                 self.middle_of_room
             end
