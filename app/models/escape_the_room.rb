@@ -1,3 +1,4 @@
+
 class EscapeTheRoom
     #this is our CLI class with @session_user and @session_character
     #line 86 error
@@ -247,6 +248,7 @@ class EscapeTheRoom
     end
 
     def self.view_bible_passage
+        pastel = Pastel.new
         print "And the evening and the morning were the fifth day. And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so. And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good. And God said, Let us make man in our image, after our likeness: and let them have dominion over the "
         print pastel.red"fish"
         print " of the sea, and over the "
