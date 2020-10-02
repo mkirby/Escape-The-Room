@@ -9,15 +9,18 @@ class Escape < ActiveRecord::Base
         location = self.where_am_i
         system("clear")
         if location == "Pool Table"
-            #self.pool_table
+            #not made yet
+            self.middle_of_room
         elsif location == "Shelves"
             self.shelves
         elsif location == "Surgical Table"
-            ##Surgical Table method story
+            #not made yet
+            self.middle_of_room
         elsif location == "Machine"
             self.machine
         elsif location == "Bookcase"
-            ##Bookcase method story
+            ##not made yet
+            self.middle_of_room
         elsif location == "Desk"
             self.desk
         elsif location == "Safe"
@@ -30,6 +33,8 @@ class Escape < ActiveRecord::Base
             self.cage
         elsif location == "Examine Desk Top"
             self.desk_top
+        elsif location == "Examine Center Drawer"
+            self.desk_center
         end
     end
 
