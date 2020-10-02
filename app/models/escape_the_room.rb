@@ -241,7 +241,7 @@ class EscapeTheRoom
     def self.view_bible_passage
         pastel = Pastel.new
         prompt = TTY::Prompt.new
-        puts "There are three separate highlights on this page\n\n"
+        puts "There are three separate highlights on this page.\n\n"
         print "And the evening and the morning were the fifth day. And God said, Let the earth bring forth the living creature after his kind, cattle, and creeping thing, and beast of the earth after his kind: and it was so. And God made the beast of the earth after his kind, and cattle after their kind, and every thing that creepeth upon the earth after his kind: and God saw that it was good. And God said, Let us make man in our image, after our likeness: and let them have dominion over the "
         print pastel.red"fish"
         print " of the sea, and over the "
@@ -266,8 +266,8 @@ class EscapeTheRoom
     def self.view_journal_cover
         pastel = Pastel.new
         prompt = TTY::Prompt.new
-        puts "Description of Journal cover\n\n"
-        puts "You open the cover and notice a small inscription on the inside: "
+        puts "The leather of the front cover is worn from age.\n\n"
+        puts "You open the cover and notice a small inscription on the inside:"
         puts pastel.red"\nProperty of Dr. F\nDoB: 03/11/18\nLicense Number: BOES348562945\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Take the Journal", 1
@@ -310,6 +310,7 @@ class EscapeTheRoom
         prompt = TTY::Prompt.new
         puts "Thank you so much for playing our little cli game. Lots of hard work went into planning our escape story and puzzles. We hope you enjoyed it!\n\n"
         prompt.keypress("To Return To The Menu Press Enter", keys: [:space, :return])
+        system('clear')
         EscapeTheRoom.user_menu
     end
 end

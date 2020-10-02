@@ -336,7 +336,7 @@ class Escape < ActiveRecord::Base
             end
         else
             puts "You rummage through piles of trash and junk. Illegible letters and notes are stacked in ever tumbling piles.\n\n"
-            puts "There's nothing helpful here."
+            puts "There's nothing helpful here.\n\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Back", 1
             end
@@ -354,6 +354,7 @@ class Escape < ActiveRecord::Base
         EscapeTheRoom.change_terror(1)
         puts "You terror has risen: +1\n\n"
         prompt.keypress("Back", keys: [:space, :return])
+        system("clear")
         self.shelves
     end
     def shelves_bible
@@ -375,7 +376,7 @@ class Escape < ActiveRecord::Base
 
     def safe
         prompt = TTY::Prompt.new
-        puts "A combination lock safe protrudes from under the staircase. A dial shows the numbers 01 - 60\n\n"
+        puts "A combination lock safe protrudes from under the staircase. A dial shows the numbers 01 - 60.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Find Out What's Inside The Safe", 1
             menu.choice "Return To The Middle Of The Room", 2
@@ -393,7 +394,7 @@ class Escape < ActiveRecord::Base
     def safe_code
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
-            puts "You place your fingers on the dial and spin to reset the code.\n\n"
+            puts "A dial shows the numbers 01 - 60. You place your fingers on the dial and spin to reset the code. \n\n"
             choice1 = prompt.ask('The first number you spin the dial to:')
             choice2 = prompt.ask('The second number you spin the dial to:')
             choice3 = prompt.ask ('The third number you spin the dial to:')
@@ -427,7 +428,7 @@ class Escape < ActiveRecord::Base
             #menu.choice "Examine Left Bottom Drawer\n", 4
             menu.choice "Examine Right Top Drawer\n", 5
             #menu.choice "Examine Right Bottom Drawer\n", 6
-            menu.choice "Return to the middle of the room\n", 7
+            menu.choice "Return To The Middle Of The Room\n", 7
             menu.choice "View Escape Menu", 8
         end
         system('clear')
