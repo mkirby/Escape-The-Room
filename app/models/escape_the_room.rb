@@ -1,8 +1,6 @@
 
 class EscapeTheRoom
     #this is our CLI class with @session_user and @session_character
-    #line 86 error
-    #line 137 error
     
     # █▀▄▀█ ▄▀█ █ █▄░█   █▀▄▀█ █▀▀ █▄░█ █░█
     # █░▀░█ █▀█ █ █░▀█   █░▀░█ ██▄ █░▀█ █▄█
