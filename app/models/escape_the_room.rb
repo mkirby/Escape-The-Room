@@ -291,7 +291,9 @@ class EscapeTheRoom
     end
 
     def self.thanks_for_playing
-        "Thank you so much for playing our little cli game. Lots of hard work went into planning our escape story and puzzles. We hope you enjoyed it!\n\n"
+        prompt = TTY::Prompt.new
+        puts "Thank you so much for playing our little cli game. Lots of hard work went into planning our escape story and puzzles. We hope you enjoyed it!\n\n"
         prompt.keypress("To Return To The Menu Press Enter", keys: [:space, :return])
+        EscapeTheRoom.user_menu
     end
 end

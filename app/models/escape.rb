@@ -25,7 +25,7 @@ class Escape < ActiveRecord::Base
             self.desk
         elsif location == "Safe"
             self.safe
-        elsif location == "Door Up The stairs"
+        elsif location == "Door Up The Stairs"
             self.door
         elsif location == "Middle of Room"
             self.middle_of_room
@@ -141,9 +141,10 @@ class Escape < ActiveRecord::Base
     def cage_reach_keys
         prompt = TTY::Prompt.new
         bugs = ["spider", "centipede", "cricket", "roach", "earwig"]
+        bug = bugs.sample
         puts "You extend your arms and reach out for the keys. Your fingertips are so close you can feel the chill from the metal.\n\n"
-        puts "With all your focus on extending your arm out, you barely notice the large #{bugs.sample} drop down on your shoulder.\n\n"
-        puts "Before you can react, it crawls onto your neck and down your back. You shake out your shirt but can't the spider.\n\n"
+        puts "With all your focus on extending your arm out, you barely notice the large #{bug} drop down on your shoulder.\n\n"
+        puts "Before you can react, it crawls onto your neck and down your back. You shake out your shirt but can't the #{bug}.\n\n"
         EscapeTheRoom.change_terror(3)
         puts "You terror has risen: +3\n\n"
         prompt.keypress("Try Something Else", keys: [:space, :return])
@@ -587,7 +588,7 @@ class Escape < ActiveRecord::Base
     def door
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
-            puts "You're standing at the top of the staircase and infront of you is a strudy metal door.\n\n"
+            puts "You're standing at the top of the staircase and infront of you is a sturdy metal door.\n\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Door", 1
                 menu.choice "Bang on Door", 2
@@ -614,7 +615,7 @@ class Escape < ActiveRecord::Base
             system('clear')
             if choice == 1
                 #unlock door - Go to CONGRADULATIONS YOU ESCAPED!
-                puts "You open the door from the basement and YOU ESCAPED!"
+                puts "You open the door from the basement and YOU ESCAPED!\n\n"
                 sleep 5
                 EscapeTheRoom.thanks_for_playing
             elsif choice == 2

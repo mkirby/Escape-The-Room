@@ -21,7 +21,7 @@ class Character < ActiveRecord::Base
         system('clear')
         puts "Inventory:\n\n"
         if EscapeTheRoom.has_zero_items?
-            puts "You currently have no items.\n\n"
+            puts "You currently have no items."
         else
             self.items.reload.map do |item|
                 puts "#{item.name} - '#{item.description}'"
