@@ -375,18 +375,18 @@ class Escape < ActiveRecord::Base
 
     def safe
         prompt = TTY::Prompt.new
-        puts "You are standing in front of the combination locked safe\n\nprotuding from under the staircase\n" ####### NEEDED
+        puts "A combination locked safe protrudes from under the staircase. A dial shows the numbers 01 - 60\n\n"
         choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Find out what's inside the safe"
-            menu.choice "Return to the middle of the room"
-            menu.choice "View Escape Menu"
+            menu.choice "Find Out What's Inside The Safe", 1
+            menu.choice "Return To The Middle Of The Room", 2
+            menu.choice "View Escape Menu", 3
         end
         system('clear')
-        if choice == "Find out what's inside the safe"
+        if choice == 1
             self.safe_code
-        elsif choice == "Return to the middle of the room"
+        elsif choice == 2
             self.middle_of_room
-        elsif choice == "View Escape Menu"
+        elsif choice == 3
             EscapeTheRoom.escape_menu
         end
     end
@@ -405,7 +405,7 @@ class Escape < ActiveRecord::Base
                 sleep 2
                 puts "A SHINY KEY!\n\n"
                 sleep 1
-                puts "You grab the key and towards the door at the top of the staircase with hope..."
+                puts "You grab the key and wonder what it opens..."
                 EscapeTheRoom.add_character_item("Key")
                 prompt.keypress("Press space or enter to go back", keys: [:space, :return])
                 system("clear")
@@ -413,7 +413,7 @@ class Escape < ActiveRecord::Base
             else
                 puts "You grab the door of the safe and pull...\n\n"
                 sleep 1
-                puts "Nothing.\n\nYou think, 'I wonder what the combination could be'"
+                puts "Nothing.\n\nYou think, 'I wonder what the combination could be.'"
                 prompt.keypress("Press space or enter to go back", keys: [:space, :return])
                 system("clear")
                 self.safe
