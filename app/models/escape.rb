@@ -427,7 +427,7 @@ class Escape < ActiveRecord::Base
 
     def desk
         prompt = TTY::Prompt.new
-        puts "You are standing in front of a metal desk.\n\nThere are three drawers.\n\nTwo large drawers on the left and right, and a smaller one in the center.\n\n 'Hmmm, I wonder what could be in these drawers?'\n\n"
+        puts "You are standing in front of a metal desk.\n\nThere are three drawers.\n\nTwo large drawers on the left and right, and a smaller one in the center.\n\n"
         self.update(where_am_i: "Desk")
         choice = prompt.select('Choose an option', per_page: 8) do |menu|
             menu.choice "Examine Desk Top\n", 1
