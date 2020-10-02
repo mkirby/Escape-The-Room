@@ -299,7 +299,7 @@ class Escape < ActiveRecord::Base
     end
     def shelves_top
         prompt = TTY::Prompt.new
-        puts "Description of The Top Shelf\n"
+        puts "Old boxes of medical supplies and rusted tools litter the top shelf. There's nothing here of use.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -310,7 +310,7 @@ class Escape < ActiveRecord::Base
     end
     def shelves_middle
         prompt = TTY::Prompt.new
-        puts "Description of The Middle Shelf\n"
+        puts "Broken syringes are littered about an assortment of old clouded jars filled with unidentafiable specimens.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -322,7 +322,8 @@ class Escape < ActiveRecord::Base
     def shelves_bottom
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Bible")
-            puts "Description of The Bottom Shelf\n"
+            puts "You rummage through piles of trash and junk. Illegible letters and notes are stacked in ever tumbling piles.\n\n"
+            puts "You spot a beaten up bible under a pile of papers.\n\n"
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Examine Bible", 1
                 menu.choice "Back", 2
@@ -334,7 +335,8 @@ class Escape < ActiveRecord::Base
                 self.shelves
             end
         else
-            puts "Description of The Bottom Shelf WITHOUT Bible\n"
+            puts "You rummage through piles of trash and junk. Illegible letters and notes are stacked in ever tumbling piles.\n\n"
+            puts "There's nothing helpful here."
             choice = prompt.select('Choose an option') do |menu|
                 menu.choice "Back", 1
             end
@@ -347,18 +349,19 @@ class Escape < ActiveRecord::Base
     end
     def shelves_under
         prompt = TTY::Prompt.new
-        puts "Description of Under The Shelves\n"
-        choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Back", 1
-        end
-        system('clear')
-        if choice == 1
-            self.shelves
+        puts "There is a four inch gap between the bottom shelf and the floor. You peer down closer to see if you can find any hints.\n\n"
+        prompt.keypress("Continue", keys: [:space, :return])
+        puts "A rat jumps out at you and runs across your feet before scurring into the pocket of the pool table!!\n\n"
+        EscapeTheRoom.change_terror(1)
+        puts "You terror has risen: +1\n\n"
+        prompt.keypress("Back", keys: [:space, :return])
+        self.shelves
         end
     end
     def shelves_bible
         prompt = TTY::Prompt.new
-        puts "Description of Under The Bibles\n"
+        puts "An old king james bible is worn from heavy use. Someone must have loved it dearly but now it's forgotten.\n\n"
+        puts "A folded over page marks a section in the book.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "View Creased Passage", 1
             menu.choice "Back", 2
