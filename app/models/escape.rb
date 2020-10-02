@@ -542,7 +542,20 @@ class Escape < ActiveRecord::Base
     # end
     def desk_right_top
         prompt = TTY::Prompt.new
-        puts "You pull open the right drawer and find  \n\n"
+        puts "You pull open the right drawer and find it's halfway filled with halloween candy.\nYou decide to take a jellybean.\n\n"
+        candy = ["rotten eggs", "blue raspberry"]
+        candy_choice = candy.sample
+        prompt.keypress("Continue", keys: [:space, :return])
+        system("clear")
+        if candy_choice == "rotten eggs"
+            EscapeTheRoom.change_health(-2)
+            puts "YUCK! This tastes like #{candy_choice}! Is this 'BeanBoozled'??\n"
+            puts "You health has decrease: -2\n\n"
+        elsif candy_choice == "blue raspberry"
+            EscapeTheRoom.change_health(+2)
+            puts "Yum, #{candy_choice} flavor\n"
+            puts "You health has risen: +2\n\n"
+        end
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
