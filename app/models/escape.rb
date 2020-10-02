@@ -562,11 +562,11 @@ class Escape < ActiveRecord::Base
     # end
     def desk_journal
         prompt = TTY::Prompt.new
-        puts "You grab the journal. It looks a really worn and old.\n\nAs if it has been used for many years.\n\n\n"
+        puts "You grab the journal. It looks really worn and old.\n\nAs if it has been used for many years.\n\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Browse Cover", 1
             menu.choice "Browse Journal Entries", 2
-            menu.choice "View Back Cover", 3
+            menu.choice "Browse Back Cover", 3
             menu.choice "Back", 4
         end
         system('clear')
@@ -574,9 +574,13 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.view_journal_cover
         elsif choice == 2
             puts "You flip through the journal for any signs of helpful information.\n\nEverything contained within the journal just seems like the ramblings of a mad man.\n\n"
+            prompt.keypress("Press to return", keys: [:space, :return])
+            system("clear")
             self.desk_journal
         elsif choice == 3
             puts "The back cover of the journal is covered in many water ring stains\n\nas if it's regularly used as a coaster.\n\n"
+            prompt.keypress("Press to return", keys: [:space, :return])
+            system("clear")
             self.desk_journal
         elsif choice == 4
             system('clear')
