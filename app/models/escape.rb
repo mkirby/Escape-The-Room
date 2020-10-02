@@ -518,7 +518,9 @@ class Escape < ActiveRecord::Base
     end
     def desk_left_top
         prompt = TTY::Prompt.new
-        puts "Description of Left Top Drawer\n"
+        puts "You pull open the left drawer and find several polaroids.\nUpon closer inspection you find that these photos are very grotesque and bloody.\nTo your absolute horror you believe you are looking at mutilated humans...\nAre you next??\n\n"
+        EscapeTheRoom.change_terror(2)
+        puts "You terror has risen: +2\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -540,7 +542,7 @@ class Escape < ActiveRecord::Base
     # end
     def desk_right_top
         prompt = TTY::Prompt.new
-        puts "Description of Right Top Drawer\n"
+        puts "You pull open the right drawer and find  \n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
