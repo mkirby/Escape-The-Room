@@ -9,20 +9,23 @@ class Escape < ActiveRecord::Base
         location = self.where_am_i
         system("clear")
         if location == "Pool Table"
-            #self.pool_table
+            #not made yet
+            self.middle_of_room
         elsif location == "Shelves"
             self.shelves
         elsif location == "Surgical Table"
-            ##Surgical Table method story
+            #not made yet
+            self.middle_of_room
         elsif location == "Machine"
             self.machine
         elsif location == "Bookcase"
-            ##Bookcase method story
+            ##not made yet
+            self.middle_of_room
         elsif location == "Desk"
             self.desk
         elsif location == "Safe"
             self.safe
-        elsif location == "Door up the stairs"
+        elsif location == "Door Up The stairs"
             self.door
         elsif location == "Middle of Room"
             self.middle_of_room
@@ -64,8 +67,9 @@ class Escape < ActiveRecord::Base
         puts "\nA metal door is closed at the top of a wooden staircase."
         puts "\nYou can see the front of a small safe next to the desk protruding out of the wall from under the staircase."
         puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
-        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys."
-        prompt.keypress("\n\nPress space or enter to try to escape", keys: [:space, :return])
+        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys.\n\n"
+        prompt.keypress("Press Space Or Enter To Try To Escape...", keys: [:space, :return])
+        system("clear")
         self.cage
     end
     def knockout_intro
@@ -86,62 +90,72 @@ class Escape < ActiveRecord::Base
             menu.choice "View Escape Menu"
         end
         system("clear")
-        if choice == "Yell for help"
-            ####NEED story of captors beating character up and decreasing health by 3
-            puts "You yell for help and a man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-            EscapeTheRoom.change_health(-3)
-            sleep 3
-            prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-            system("clear")
-            self.cage  ##Sends back to start of cage story of waking up dizzy
-            
-        elsif choice == "Reach for cue stick"
-            EscapeTheRoom.add_character_item("Cue Stick")
-            choice2 = prompt.select('You now have a cue stick, what what you like to do with it?') do |menu|
-                menu.choice "Rattle cage and scream for help"
-                menu.choice "Reach for keys with cue stick"
-            end
-            if choice2 == "Rattle cage and scream for help"
-                puts "You rattle the cage and yell for help\n\nA man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-                EscapeTheRoom.change_health(-3)
-                sleep 3
-                prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-                system("clear")
-                self.cage ##Sends back to start of cage story waking up dizzy
-
-            elsif choice2 == "Reach for keys with cue stick"
-                puts "You reach for the keys with the cue stick\n\nMiraculously you are about to get the key ring to slide down\n\nthe cue stick!! You pull the cue stick back into the cage\n\nand grab the keys! FREEDOM!!!"
-                EscapeTheRoom.add_character_item("Ring of Keys")
-                sleep 3
-                choice3 = prompt.select('You now have the keys, what what you like to do with it?') do |menu|
-                    menu.choice "Unlock the cage"
-                end
-                if choice3 == "Unlock the cage"
-                    system('clear')
-                    self.middle_of_room
-                end
-            end
-                
-        elsif choice == "Reach for keys"
-            ###Need story of character grabbing keys immediate and hurting arm decreasing health by 1
-            puts "You extend your arms and reach out for the keys\n\nyour fingertips are so close you can feel the chill from the metal.\n\nAHHH!! A bat flies in and tries to perch on your extended arm!\n\nThat's the last thing you remember before fainting from fear\n\n\n"
-            EscapeTheRoom.change_terror(3)
-            sleep 3
-            prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-            system("clear")
-            self.cage ##Sends back to start of cage story waking up dizzy
-
+        if choice == "Yell For Help"
+            self.cage_yell
+        elsif choice == "Reach For Cue Stick"
+            self.cage_reach_cue
+        elsif choice == "Reach For Keys"
+            self.cage_reach_keys
         elsif choice == "View Escape Menu"
             EscapeTheRoom.escape_menu
         end
+    end
+    def cage_yell
+        prompt = TTY::Prompt.new
+        puts "You yell and scream for help and a crazy looking disheveled older man runs down the stairs towards your cage.\n\n"
+        ##NEED a good exposition
+        puts "Extensive Exposition by your captor better known as DR. FRANKENSTEIN.\n\n"
+        puts "The basement slowly fills with toxic gases and the last thought you remember was sheer terror.\n\n"
+        prompt.keypress("Press Space Or Enter To Wake Up", keys: [:space, :return])
+        system("clear")
+        puts "You have splitting headache and you fear that you'll never escape this room.\n\n"
+        puts "You health has been affected: -3"
+        EscapeTheRoom.change_health(-3)
+        puts "You terror has risen: +2\n\n"
+        EscapeTheRoom.change_terror(2)
+        self.knockout_intro
+    end
+    def cage_reach_cue
+        prompt = TTY::Prompt.new
+        puts "You just manage to get a finger on a cue stick and roll it towards your cage.\n\n"
+        EscapeTheRoom.add_character_item("Cue Stick")
+        choice = prompt.select('You now have a cue stick, what would you like to do with it?') do |menu|
+            menu.choice "Reach For The Keys With The Cue Stick", 1
+        end
+        system('clear')
+        if choice == 1
+            puts "You reach for the keys with the cue stick. It takes all your concentration to line up the cue stick with the keyring.\n\n"
+            puts "Miraculously you get the key ring to slide down the cue stick!!\n\n"
+            puts "You pull the cue stick back into the cage and grab the keys! FREEDOM!!!\n\n"
+            EscapeTheRoom.add_character_item("Ring of Keys")
+            choice2 = prompt.select('You now have the ring of keys, what would you like to do with it?') do |menu|
+                menu.choice "Unlock The Cage", 1
+            end
+            if choice2 == 1
+                puts "The cage lock clicks open and you're one step closer to escape.\n\n"
+                system('clear')
+                self.middle_of_room
+            end
+        end
+    end
+    def cage_reach_keys
+        prompt = TTY::Prompt.new
+        bugs = ["spider", "centipede", "cricket", "roach", "earwig"]
+        puts "You extend your arms and reach out for the keys. Your fingertips are so close you can feel the chill from the metal.\n\n"
+        puts "With all your focus on extending your arm out, you barely notice the large #{bugs.sample} drop down on your shoulder.\n\n"
+        puts "Before you can react, it crawls onto your neck and down your back. You shake out your shirt but can't the spider.\n\n"
+        EscapeTheRoom.change_terror(3)
+        puts "You terror has risen: +3\n\n"
+        prompt.keypress("Try Something Else", keys: [:space, :return])
+        system("clear")
+        self.cage
     end
 
     def middle_of_room
         prompt = TTY::Prompt.new
         self.update(where_am_i: "Middle of Room")
-        puts "You're currently standing in the middle of the basement\n\n"
-        sleep 2
-        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
+        puts "You're currently standing in the middle of the basement thinking about the escape plan.\n\n"
+        choice = prompt.select('Where Would You Like To Investigate?', per_page: 9) do |menu|
             menu.choice "Pool Table"
             menu.choice "Shelves"
             menu.choice "Surgical Table"
@@ -149,30 +163,25 @@ class Escape < ActiveRecord::Base
             menu.choice "Bookcase"
             menu.choice "Desk"
             menu.choice "Safe"
-            menu.choice "Door up the stairs"
+            menu.choice "Door Up The Stairs"
             menu.choice "Escape Menu"
         end
         system("clear")
         if choice != "Escape Menu"
             self.update(where_am_i: "#{choice}")
-            if choice == "Pool Table"
-                ###Pool Table Method story
-                puts "Going to the #{choice}!"
+            if choice == "Pool Table" || choice == "Surgical Table" || choice == "Bookcase"
+                self.update(where_am_i: "Middle of Room")
+                puts "The #{choice} blinks from existance as if it didn't exist yet!\n\n"
+                self.middle_of_room
             elsif choice == "Shelves"
                 self.shelves
-            elsif choice == "Surgical Table"
-                ##Surgical Table method story
-                puts "Going to the #{choice}!"
             elsif choice == "Machine"
                 self.machine
-            elsif choice == "Bookcase"
-                ##Bookcase method story
-                puts "Going to the #{choice}!"
             elsif choice == "Desk"
                 self.desk
             elsif choice == "Safe"
                 self.safe
-            elsif choice == "Door up the stairs"
+            elsif choice == "Door Up The Stairs"
                 self.door
             end
         elsif choice == "Escape Menu"
@@ -184,36 +193,50 @@ class Escape < ActiveRecord::Base
         prompt = TTY::Prompt.new
         self.reload.machine_on
         if machine_on == true
-            puts "You walk up to the buzzing machine.\n\nIt's full of life.\n\nThe desk nearby is suddenly humming away..."
+            puts "You're standing in front of the machine as it buzzes and crackles with sparks of electricity.\n\nIt's full of life.\n\n"
+            choice = prompt.select('Where would you like to investigate?') do |menu|
+                menu.choice "Turn Off The Machine"
+                menu.choice "Return To The Middle Of The Room"
+                menu.choice "Escape Menu"
+            end
+            system("clear")
+            if choice == "Turn Off The Machine"
+                EscapeTheRoom.change_machine_powered_on_status_to(false)
+                self.machine
+            elsif choice == "Return To The Middle Of The Room"
+                self.middle_of_room
+            elsif choice == "Escape Menu"
+                EscapeTheRoom.escape_menu
+            end
         elsif machine_on == false
-            puts "You walk up to the machine with two conical spires and a keypad.\n\nYou think, 'What could this thing possibly be for??'\n\n"
-        end
-        sleep 1
-        
-        choice = prompt.select('Where would you like to investigate?', per_page: 9) do |menu|
-            menu.choice "Enter access code"
-            menu.choice "Go back to middle of room"
-            menu.choice "Escape Menu"
-        end
-        system("clear")
-
-        if choice == "Enter access code"
-            self.machine_access_code
-        elsif choice == "Go back to middle of room"
-            self.middle_of_room
-        elsif choice == "Escape Menu"
-            EscapeTheRoom.escape_menu
+            puts "You're standing in front of the quiet machine with two conical spires and a dimly illuminated keypad asking for an access code.\n\n'What could this thing possibly be for??'\n\n"
+            choice = prompt.select('Where would you like to investigate?') do |menu|
+                menu.choice "Enter Access Code"
+                menu.choice "Return To The Middle Of The Room"
+                menu.choice "Escape Menu"
+            end
+            system("clear")
+            if choice == "Enter Access Code"
+                self.machine_access_code
+            elsif choice == "Return To The Middle Of The Room"
+                self.middle_of_room
+            elsif choice == "Escape Menu"
+                EscapeTheRoom.escape_menu
+            end
+        else
+            puts "machine_on not updating correctly - find error"
         end
     end
     def machine_access_code
         prompt = TTY::Prompt.new
         puts "The machine has four buttons and it looks like it takes 3 inputs"
-        choices = ["╭╯", "╭╮", "╰╮", "╰╯"]
+        choices = ["╭╯\n", "╰╮\n","╭╮\n","╰╯\n"]
         choice1 = prompt.select("Enter the first symbol", choices)
         choice2 = prompt.select("Enter the second symbol", choices)
         choice3 = prompt.select("Enter the third symbol", choices)
         enter_code = choice1 + choice2 + choice3
-        if enter_code  == "╭╯╭╮╰╯"
+        system('clear')
+        if enter_code  == "╭╯\n╭╮\n╰╯\n"
             self.machine_correct_code
         else 
             self.machine_incorrect_code
@@ -221,25 +244,30 @@ class Escape < ActiveRecord::Base
     end
     def machine_correct_code
         prompt = TTY::Prompt.new
-        self.update(machine_on: true)
-            puts "'ACCESS GRANTED...'\n\n"
-            sleep 2
-            puts "You hear the machine start to turn on\n\n"
-            sleep 2
-            prompt.keypress("Press space or enter to go back", keys: [:space, :return])
-            system("clear")
-            self.machine
+        EscapeTheRoom.change_machine_powered_on_status_to(true)
+        puts "'ACCESS GRANTED'"
+        sleep 0.5
+        print "."
+        sleep 0.5
+        print "."
+        sleep 0.5
+        print ".\n\n"
+        sleep 0.5
+        puts "As the machine grumbles on you think you hear an audible click from the desk to your left before the sparks of electricity coming off the machine's spires draw your attention.\n\n"
+        prompt.keypress("Return to the Machine", keys: [:space, :return])
+        system("clear")
+        self.machine
     end
     def machine_incorrect_code
-        self.update(machine_on: false)
-            puts "'ACCESS DENIED!'\n\n"
-            puts "An electric shock zaps you"
-            sleep 1
-            EscapeTheRoom.change_health(-1)
-            puts "Your health has been affected: -1"
-            sleep 2
-            system("clear")
-            self.machine
+        prompt = TTY::Prompt.new
+        EscapeTheRoom.change_machine_powered_on_status_to(false)
+        puts "'ACCESS DENIED!'\n\n"
+        puts "An electric shock zaps you.\n\n"
+        EscapeTheRoom.change_health(-1)
+        puts "Your health has been affected: -1\n\n"
+        prompt.keypress("Return to the Machine", keys: [:space, :return])
+        system("clear")
+        self.machine
     end
     
     def shelves
