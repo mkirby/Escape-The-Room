@@ -345,7 +345,6 @@ class Escape < ActiveRecord::Base
                 self.shelves
             end
         end
-
     end
     def shelves_under
         prompt = TTY::Prompt.new
@@ -356,7 +355,6 @@ class Escape < ActiveRecord::Base
         puts "You terror has risen: +1\n\n"
         prompt.keypress("Back", keys: [:space, :return])
         self.shelves
-        end
     end
     def shelves_bible
         prompt = TTY::Prompt.new
