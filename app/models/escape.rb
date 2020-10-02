@@ -34,6 +34,10 @@ class Escape < ActiveRecord::Base
             self.desk_center
         elsif location == "Viewing Journal"
             self.desk_journal
+        # elsif location == "Examine Left Top Drawer"
+        #     self.desk_left_top
+        # elsif location == "Examine Right Top Drawer"
+        #     self.desk_right_top
         end
     end
 
@@ -394,7 +398,8 @@ class Escape < ActiveRecord::Base
 
     def desk
         prompt = TTY::Prompt.new
-        puts "You are standing in front of a metal desk.\n\nThere are five drawers.\n\nTwo on the left, two on the right, and one in the center.\n\n 'Hmmm, I wonder what could be in these drawers?'\n\n"
+        puts "You are standing in front of a metal desk.\n\nThere are three drawers.\n\nTwo large drawers on the left and right, and a smaller one in the center.\n\n 'Hmmm, I wonder what could be in these drawers?'\n\n"
+        self.update(where_am_i: "Desk")
         choice = prompt.select('Choose an option', per_page: 8) do |menu|
             menu.choice "Examine Desk Top\n", 1
             menu.choice "Examine Center Drawer\n", 2
@@ -413,10 +418,12 @@ class Escape < ActiveRecord::Base
             self.update(where_am_i: "Examine Center Drawer") ### ADD TO WHEREAMILOADTHATLOCATION METHOD
             self.desk_center #locked to start
         elsif choice == 3
+            # self.update(where_am_i: "Examine Left Top Drawer")
             self.desk_left_top
         #elsif choice == 4
             #self.desk_left_bottom
         elsif choice == 5
+            # self.update(where_am_i: "Examine Right Top Drawer")
             self.desk_right_top
         #elsif choice == 6
             #self.desk_right_bottom
