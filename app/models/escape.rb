@@ -106,32 +106,26 @@ class Escape < ActiveRecord::Base
     end
     def cage_reach_cue
         prompt = TTY::Prompt.new
-        puts "You just manage to a finger on a cue stick and roll it towards you."
+        puts "You just manage to get a finger on a cue stick and roll it towards your cage."
         EscapeTheRoom.add_character_item("Cue Stick")
-            choice2 = prompt.select('You now have a cue stick, what would you like to do with it?') do |menu|
-                menu.choice "Rattle cage and scream for help"
-                menu.choice "Reach for keys with cue stick"
+        choice = prompt.select('You now have a cue stick, what would you like to do with it?') do |menu|
+            menu.choice "Reach For The Keys With The Cue Stick", 1
+        end
+        system('clear')
+        if choice == 1
+            puts "You reach for the keys with the cue stick. It takes all your concentration to line up the cue stick with the keyring.\n\n"
+            puts "Miraculously you get the key ring to slide down the cue stick!!\n\n"
+            puts "You pull the cue stick back into the cage and grab the keys! FREEDOM!!!\n\n"
+            EscapeTheRoom.add_character_item("Ring of Keys")
+            choice2 = prompt.select('You now have the ring of keys, what would you like to do with it?') do |menu|
+                menu.choice "Unlock The Cage", 1
             end
-            if choice2 == "Rattle cage and scream for help"
-                puts "You rattle the cage and yell for help\n\nA man runs down the stairs towards your cage.\n\nHe opens your cage door...unfortunately he has a bat.\n\nThat's the last thing you see before being knocked out.\n\n\n"
-                EscapeTheRoom.change_health(-3)
-                sleep 3
-                prompt.keypress("Press space or enter to try again", keys: [:space, :return])
-                system("clear")
-                self.cage ##Sends back to start of cage story waking up dizzy
-
-            elsif choice2 == "Reach for keys with cue stick"
-                puts "You reach for the keys with the cue stick\n\nMiraculously you are about to get the key ring to slide down\n\nthe cue stick!! You pull the cue stick back into the cage\n\nand grab the keys! FREEDOM!!!"
-                EscapeTheRoom.add_character_item("Ring of Keys")
-                sleep 3
-                choice3 = prompt.select('You now have the keys, what what you like to do with it?') do |menu|
-                    menu.choice "Unlock the cage"
-                end
-                if choice3 == "Unlock the cage"
-                    system('clear')
-                    self.middle_of_room
-                end
+            if choice2 == 1
+                puts "The cage lock clicks open and you're one step closer to escape.\n\n"
+                system('clear')
+                self.middle_of_room
             end
+        end
     end
     def cage_reach_keys
         prompt = TTY::Prompt.new
