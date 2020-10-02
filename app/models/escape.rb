@@ -30,6 +30,10 @@ class Escape < ActiveRecord::Base
             self.cage
         elsif location == "Examine Desk Top"
             self.desk_top
+        elsif location == "Examine Center Drawer"
+            self.desk_center
+        elsif location == "Viewing Journal"
+            self.desk_journal
         end
     end
 
@@ -453,6 +457,7 @@ class Escape < ActiveRecord::Base
                 end
                 system('clear')
                 if choice == 1
+                    self.update(where_am_i: "Viewing Journal")
                     self.desk_journal
                 elsif choice == 2
                     self.desk
@@ -486,17 +491,17 @@ class Escape < ActiveRecord::Base
             self.desk
         end
     end
-    #def desk_left_bottom
-        prompt = TTY::Prompt.new
-        puts "Description of Left Bottom Drawer\n"
-        choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Back", 1
-        end
-        system('clear')
-        if choice == 1
-            self.desk
-        end
-    end
+    # def desk_left_bottom
+    #     prompt = TTY::Prompt.new
+    #     puts "Description of Left Bottom Drawer\n"
+    #     choice = prompt.select('Choose an option') do |menu|
+    #         menu.choice "Back", 1
+    #     end
+    #     system('clear')
+    #     if choice == 1
+    #         self.desk
+    #     end
+    # end
     def desk_right_top
         prompt = TTY::Prompt.new
         puts "Description of Right Top Drawer\n"
@@ -508,20 +513,20 @@ class Escape < ActiveRecord::Base
             self.desk
         end
     end
-    #def desk_right_bottom
-        prompt = TTY::Prompt.new
-        puts "Description of Right Bottom Drawer\n"
-        choice = prompt.select('Choose an option') do |menu|
-            menu.choice "Back", 1
-        end
-        system('clear')
-        if choice == 1
-            self.desk
-        end
-    end
+    # def desk_right_bottom
+    #     prompt = TTY::Prompt.new
+    #     puts "Description of Right Bottom Drawer\n"
+    #     choice = prompt.select('Choose an option') do |menu|
+    #         menu.choice "Back", 1
+    #     end
+    #     system('clear')
+    #     if choice == 1
+    #         self.desk
+    #     end
+    # end
     def desk_journal
         prompt = TTY::Prompt.new
-        puts "Description of the Journal: You grab the journal. It looks old and \n"
+        puts "You grab the journal. It looks a really worn and old.\n\nAs if it has been used for many years.\n\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Browse Cover", 1
             menu.choice "Browse Journal Entries", 2
@@ -532,13 +537,14 @@ class Escape < ActiveRecord::Base
         if choice == 1
             EscapeTheRoom.view_journal_cover
         elsif choice == 2
-            puts "You flip through the journal for any signs of helpful information. Everything contained within the journal just seems like the ramblings of a mad man.\n"
+            puts "You flip through the journal for any signs of helpful information.\n\nEverything contained within the journal just seems like the ramblings of a mad man.\n\n"
             self.desk_journal
         elsif choice == 3
-            puts "The back cover of the journal is covered in many water ring stains as if it's regularly used as a coaster.\n"
+            puts "The back cover of the journal is covered in many water ring stains\n\nas if it's regularly used as a coaster.\n\n"
             self.desk_journal
         elsif choice == 4
             system('clear')
+            self.update(where_am_i: "Examine Center Drawer")
             self.desk_center
         end
     end
