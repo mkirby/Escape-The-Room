@@ -310,7 +310,7 @@ class Escape < ActiveRecord::Base
     end
     def shelves_middle
         prompt = TTY::Prompt.new
-        puts "Broken syringes are littered about an assortment of old clouded jars filled with unidentafiable specimens.\n\n"
+        puts "Broken syringes are littered about an assortment of old clouded jars filled with unidentifiable specimens.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -350,7 +350,7 @@ class Escape < ActiveRecord::Base
         prompt = TTY::Prompt.new
         puts "There is a four inch gap between the bottom shelf and the floor. You peer down closer to see if you can find any hints.\n\n"
         prompt.keypress("Continue", keys: [:space, :return])
-        puts "A rat jumps out at you and runs across your feet before scurring into the pocket of the pool table!!\n\n"
+        puts "\nA rat jumps out at you and runs across your feet before scurring into the pocket of the pool table!!\n\n"
         EscapeTheRoom.change_terror(1)
         puts "You terror has risen: +1\n\n"
         prompt.keypress("Back", keys: [:space, :return])
