@@ -375,7 +375,7 @@ class Escape < ActiveRecord::Base
 
     def safe
         prompt = TTY::Prompt.new
-        puts "A combination locked safe protrudes from under the staircase. A dial shows the numbers 01 - 60\n\n"
+        puts "A combination lock safe protrudes from under the staircase. A dial shows the numbers 01 - 60\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Find Out What's Inside The Safe", 1
             menu.choice "Return To The Middle Of The Room", 2
@@ -393,33 +393,33 @@ class Escape < ActiveRecord::Base
     def safe_code
         prompt = TTY::Prompt.new
         if !EscapeTheRoom.has_item?("Key")
-            puts "You place your fingers on the dial and spin to reset the code."
+            puts "You place your fingers on the dial and spin to reset the code.\n\n"
             choice1 = prompt.ask('The first number you spin the dial to:')
             choice2 = prompt.ask('The second number you spin the dial to:')
-            choice3 = prompt.ask ('The third number you spin the dial to')
+            choice3 = prompt.ask ('The third number you spin the dial to:')
             combination = choice1 + choice2 + choice3
             if combination == "031118"
-                puts "You grab the door of the safe and pull...\n\n"
+                puts "\nYou grab the door of the safe and pull...\n\n"
                 sleep 1
                 puts "You feel the door swing open and you look inside...\n\n"
                 sleep 2
                 puts "A SHINY KEY!\n\n"
                 sleep 1
-                puts "You grab the key and wonder what it opens..."
+                puts "You grab the key and wonder what it opens...\n\n"
                 EscapeTheRoom.add_character_item("Key")
                 prompt.keypress("Press space or enter to go back", keys: [:space, :return])
                 system("clear")
                 self.safe
             else
-                puts "You grab the door of the safe and pull...\n\n"
+                puts "\nYou grab the door of the safe and pull...\n\n"
                 sleep 1
-                puts "Nothing.\n\nYou think, 'I wonder what the combination could be.'"
+                puts "Nothing.\n\nYou think, 'I wonder what the combination could be.'\n\n"
                 prompt.keypress("Press space or enter to go back", keys: [:space, :return])
                 system("clear")
                 self.safe
             end
         else EscapeTheRoom.has_item?("Key")
-            puts "The safe is open and you have the key!\n\nThere is nothing else in here"
+            puts "The safe is open and you have the key! There is nothing else in here.\n\n"
             prompt.keypress("Press space or enter to go back", keys: [:space, :return])
             system("clear")
             self.safe

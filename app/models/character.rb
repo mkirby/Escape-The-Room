@@ -9,8 +9,8 @@ class Character < ActiveRecord::Base
         system('clear')
         puts "Character Stats:\n\n"
         puts "Name: #{self.name}"
-        puts "Health: #{self.health}"
-        puts "Terror: #{self.terror}\n\n"
+        puts "Health: #{self.health}/10"
+        puts "Terror: #{self.terror}/10\n\n"
         prompt.keypress("Return", keys: [:space, :return])
         system("clear")
         EscapeTheRoom.escape_menu
