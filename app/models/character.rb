@@ -9,20 +9,24 @@ class Character < ActiveRecord::Base
         system('clear')
         puts "Name: #{self.name}"
         puts "Health: #{self.health}"
-        puts "Terror: #{self.terror}"
+        puts "Terror: #{self.terror}\n\n"
         prompt.keypress("Return", keys: [:space, :return])
+        system("clear")
         EscapeTheRoom.escape_menu
     end
 
     def view_inventory
         prompt = TTY::Prompt.new
         system('clear')
-        ## NEED
-        ##IF CHARACTER HAS NO ITEM SAY SO
-        self.items.reload.map do |item|
-            puts "#{item.name} - '#{item.description}'"
+        if EscapeTheRoom.has_zero_items?
+            puts "You currently have no items.\n\n"
+        else
+            self.items.reload.map do |item|
+                puts "#{item.name} - '#{item.description}'"
+            end
         end
         prompt.keypress("Return", keys: [:space, :return])
+        system("clear")
         EscapeTheRoom.escape_menu
     end
 
