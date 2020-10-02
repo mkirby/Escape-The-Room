@@ -35,6 +35,8 @@ class Escape < ActiveRecord::Base
             self.desk_top
         elsif location == "Examine Center Drawer"
             self.desk_center
+        elsif location == "View Journal"
+            self.desk_journal
         end
     end
 
