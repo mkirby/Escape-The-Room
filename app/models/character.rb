@@ -27,7 +27,7 @@ class Character < ActiveRecord::Base
                 puts "#{item.name} - '#{item.description}'"
             end
         end
-        prompt.keypress("Return", keys: [:space, :return])
+        prompt.keypress("\n\nReturn", keys: [:space, :return])
         system("clear")
         EscapeTheRoom.escape_menu
     end

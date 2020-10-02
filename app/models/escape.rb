@@ -22,7 +22,7 @@ class Escape < ActiveRecord::Base
             self.desk
         elsif location == "Safe"
             self.safe
-        elsif location == "Door up the stairs"
+        elsif location == "Door Up The stairs"
             self.door
         elsif location == "Middle of Room"
             self.middle_of_room
