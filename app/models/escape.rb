@@ -56,8 +56,9 @@ class Escape < ActiveRecord::Base
         puts "\nA metal door is closed at the top of a wooden staircase."
         puts "\nYou can see the front of a small safe next to the desk protruding out of the wall from under the staircase."
         puts "\nA long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'."
-        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys.\n"
+        puts "\nAt the end of those shelves, hanging from a hook a few feet away from the bars of your cage, dangles a ring of brass keys.\n\n"
         prompt.keypress("Press Space Or Enter To Try To Escape...", keys: [:space, :return])
+        system("clear")
         self.cage
     end
     def knockout_intro
@@ -99,14 +100,15 @@ class Escape < ActiveRecord::Base
         puts "You have splitting headache and you fear that you'll never escape this room.\n\n"
         puts "You health has been affected: -3"
         EscapeTheRoom.change_health(-3)
-        puts "You terror has risen: +2"
+        puts "You terror has risen: +2\n\n"
         EscapeTheRoom.change_terror(2)
         self.knockout_intro
     end
     def cage_reach_cue
         prompt = TTY::Prompt.new
+        puts "You just manage to a finger on a cue stick and roll it towards you."
         EscapeTheRoom.add_character_item("Cue Stick")
-            choice2 = prompt.select('You now have a cue stick, what what you like to do with it?') do |menu|
+            choice2 = prompt.select('You now have a cue stick, what would you like to do with it?') do |menu|
                 menu.choice "Rattle cage and scream for help"
                 menu.choice "Reach for keys with cue stick"
             end
@@ -133,13 +135,14 @@ class Escape < ActiveRecord::Base
     end
     def cage_reach_keys
         prompt = TTY::Prompt.new
-        ###Need story of character grabbing keys immediate and hurting arm decreasing health by 1
-        puts "You extend your arms and reach out for the keys\n\nyour fingertips are so close you can feel the chill from the metal.\n\nAHHH!! A bat flies in and tries to perch on your extended arm!\n\nThat's the last thing you remember before fainting from fear\n\n\n"
+        bugs = ["spider", "centipede", "cricket", "roach", "earwig"]
+        puts "You extend your arms and reach out for the keys. Your fingertips are so close you can feel the chill from the metal.\n\n"
+        puts "With all your focus on extending your arm out, you barely notice the large #{bugs.sample} drop down on your shoulder.\n\n"
+        puts "Before you can react, it crawls onto your neck and down your back. You shake out your shirt but can't the spider.\n\n"
         EscapeTheRoom.change_terror(3)
-        sleep 3
-        prompt.keypress("Press space or enter to try again", keys: [:space, :return])
+        prompt.keypress("Try Something Else", keys: [:space, :return])
         system("clear")
-        self.cage ##Sends back to start of cage story waking up dizzy
+        self.cage
     end
 
     def middle_of_room
