@@ -273,13 +273,13 @@ class Escape < ActiveRecord::Base
     
     def shelves
         prompt = TTY::Prompt.new
-        puts "Description of Shelves as a whole\n"
+        puts "A long row of rusty metal shelves is filled with jars, surgical supplies, and an overflow of dusty items that can aptly be called 'junk'.\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Examine Top Shelf", 1
             menu.choice "Examine Middle Shelf", 2
             menu.choice "Examine Bottom Shelf", 3
-            menu.choice "Examine under the Shelves", 4
-            menu.choice "Return to the middle of the room", 5
+            menu.choice "Examine Under the Shelves", 4
+            menu.choice "Return To The Middle Of The Room", 5
             menu.choice "View Escape Menu", 6
         end
         system('clear')
