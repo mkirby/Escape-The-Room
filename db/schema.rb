@@ -20,7 +20,6 @@ ActiveRecord::Schema.define(version: 2020_09_28_194554) do
   end
 
   create_table "escapes", force: :cascade do |t|
-    t.string "name"
     t.string "where_am_i"
     t.boolean "machine_on", default: false
   end
