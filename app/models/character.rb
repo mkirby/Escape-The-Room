@@ -7,6 +7,7 @@ class Character < ActiveRecord::Base
     def check_stats
         prompt = TTY::Prompt.new
         system('clear')
+        puts "Character Stats:\n\n"
         puts "Name: #{self.name}"
         puts "Health: #{self.health}"
         puts "Terror: #{self.terror}\n\n"
@@ -18,6 +19,7 @@ class Character < ActiveRecord::Base
     def view_inventory
         prompt = TTY::Prompt.new
         system('clear')
+        puts "Inventory:\n\n"
         if EscapeTheRoom.has_zero_items?
             puts "You currently have no items.\n\n"
         else
