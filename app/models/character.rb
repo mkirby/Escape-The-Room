@@ -40,10 +40,10 @@ class Character < ActiveRecord::Base
         end
         if leave == "Yes"
             system('clear')
-            EscapeTheRoom.user_menu ## this may return to 86 or 137 in EscapeTheRoom
+            EscapeTheRoom.user_menu
         elsif leave == "No"
             system('clear')
-            EscapeTheRoom.escape_menu ## this may return to 86 or 137 in EscapeTheRoom
+            EscapeTheRoom.escape_menu
         end
     end
 end

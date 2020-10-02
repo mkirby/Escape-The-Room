@@ -82,13 +82,7 @@ class EscapeTheRoom
         end
         if choice == "Start New Game"
             @session_character = @session_user.create_character
-            #send the current character into their escape instance game intro
             @session_character.escapes.first.intro
-            
-            ## Save & Quit errors and returns to here instead of what we want
-            
-            system('clear')
-            EscapeTheRoom.user_menu
         elsif choice == "View Characters"
             @session_user.has_a_character?
         elsif choice == "Log Out"
@@ -123,22 +117,15 @@ class EscapeTheRoom
             character.name
         end
         choice = prompt.select("Choose a character", character_name.sort)
-
         choice2 = prompt.select('') do |menu|
             menu.choice "Continue Game"
             menu.choice "Rename Character"
             menu.choice "Delete Character"
             menu.choice "Back"
         end
-
         if choice2 == "Continue Game"
             @session_character = Character.find_by name: choice
             @session_character.escapes.first.where_am_i_load_that_location
-            
-            ## Save & Quit errors and returns to here instead of what we want
-            
-            system('clear')
-            EscapeTheRoom.user_menu
         elsif choice2 == "Rename Character"
             new_name = prompt.ask('What would you like to name your character?')
             character = Character.find_by name: choice
