@@ -235,7 +235,7 @@ class EscapeTheRoom
     end
 
     def self.has_item?(item_name)
-        @session_character.items.map { |item| item.name == item_name}.include?(true)
+        @session_character.items.reload.map { |item| item.name == item_name}.include?(true)
     end
 
     def self.view_bible_passage
@@ -295,7 +295,7 @@ class EscapeTheRoom
         EscapeTheRoom.add_character_item("Key")
         prompt.keypress("Press space or enter to go back", keys: [:space, :return])
         system("clear")
-        self.safe
+        @session_character.escapes.first.safe
     end
 
     def self.change_machine_powered_on_status_to(boolean)
