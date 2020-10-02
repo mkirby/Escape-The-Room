@@ -283,6 +283,21 @@ class EscapeTheRoom
         end
     end
 
+    def self.open_safe
+        prompt = TTY::Prompt.new
+        puts "\nYou grab the door of the safe and pull...\n\n"
+        sleep 1
+        puts "You feel the door swing open and you look inside...\n\n"
+        sleep 2
+        puts "A SHINY KEY!\n\n"
+        sleep 1
+        puts "You grab the key and wonder what it opens...\n\n"
+        EscapeTheRoom.add_character_item("Key")
+        prompt.keypress("Press space or enter to go back", keys: [:space, :return])
+        system("clear")
+        self.safe
+    end
+
     def self.change_machine_powered_on_status_to(boolean)
         @session_character.escapes.first.update(machine_on: boolean)
     end

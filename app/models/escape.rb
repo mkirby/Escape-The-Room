@@ -399,17 +399,7 @@ class Escape < ActiveRecord::Base
             choice3 = prompt.ask ('The third number you spin the dial to:')
             combination = choice1 + choice2 + choice3
             if combination == "031118"
-                puts "\nYou grab the door of the safe and pull...\n\n"
-                sleep 1
-                puts "You feel the door swing open and you look inside...\n\n"
-                sleep 2
-                puts "A SHINY KEY!\n\n"
-                sleep 1
-                puts "You grab the key and wonder what it opens...\n\n"
-                EscapeTheRoom.add_character_item("Key")
-                prompt.keypress("Press space or enter to go back", keys: [:space, :return])
-                system("clear")
-                self.safe
+                EscapeTheRoom.open_safe
             else
                 puts "\nYou grab the door of the safe and pull...\n\n"
                 sleep 1
