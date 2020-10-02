@@ -418,7 +418,7 @@ class Escape < ActiveRecord::Base
 
     def desk
         prompt = TTY::Prompt.new
-        puts "You are standing in front of a metal desk.\n\nThere are three drawers.\n\nTwo large drawers on the left and right, and a smaller one in the center.\n\n 'Hmmm, I wonder what could be in these drawers?'\n\n"
+        puts "You are standing in front of a metal desk.\n\nThere are three drawers.\n\nTwo large drawers on the left and right, and a smaller one in the center.\n\n"
         self.update(where_am_i: "Desk")
         choice = prompt.select('Choose an option', per_page: 8) do |menu|
             menu.choice "Examine Desk Top\n", 1
@@ -509,7 +509,9 @@ class Escape < ActiveRecord::Base
     end
     def desk_left_top
         prompt = TTY::Prompt.new
-        puts "Description of Left Top Drawer\n"
+        puts "You pull open the left drawer and find several polaroids.\nUpon closer inspection you find that these photos are very grotesque and bloody.\nTo your absolute horror you believe you are looking at mutilated humans...\nAre you next??\n\n"
+        EscapeTheRoom.change_terror(2)
+        puts "You terror has risen: +2\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -531,7 +533,20 @@ class Escape < ActiveRecord::Base
     # end
     def desk_right_top
         prompt = TTY::Prompt.new
-        puts "Description of Right Top Drawer\n"
+        puts "You pull open the right drawer and find it's halfway filled with halloween candy.\nYou decide to take a jellybean.\n\n"
+        candy = ["rotten eggs", "blue raspberry"]
+        candy_choice = candy.sample
+        prompt.keypress("Continue", keys: [:space, :return])
+        system("clear")
+        if candy_choice == "rotten eggs"
+            EscapeTheRoom.change_health(-2)
+            puts "YUCK! This tastes like #{candy_choice}! Is this 'BeanBoozled'??\n"
+            puts "You health has decrease: -2\n\n"
+        elsif candy_choice == "blue raspberry"
+            EscapeTheRoom.change_health(+2)
+            puts "Yum, #{candy_choice} flavor\n"
+            puts "You health has risen: +2\n\n"
+        end
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Back", 1
         end
@@ -553,11 +568,11 @@ class Escape < ActiveRecord::Base
     # end
     def desk_journal
         prompt = TTY::Prompt.new
-        puts "You grab the journal. It looks a really worn and old.\n\nAs if it has been used for many years.\n\n\n"
+        puts "You grab the journal. It looks really worn and old.\n\nAs if it has been used for many years.\n\n\n"
         choice = prompt.select('Choose an option') do |menu|
             menu.choice "Browse Cover", 1
             menu.choice "Browse Journal Entries", 2
-            menu.choice "View Back Cover", 3
+            menu.choice "Browse Back Cover", 3
             menu.choice "Back", 4
         end
         system('clear')
@@ -565,9 +580,13 @@ class Escape < ActiveRecord::Base
             EscapeTheRoom.view_journal_cover
         elsif choice == 2
             puts "You flip through the journal for any signs of helpful information.\n\nEverything contained within the journal just seems like the ramblings of a mad man.\n\n"
+            prompt.keypress("Press to return", keys: [:space, :return])
+            system("clear")
             self.desk_journal
         elsif choice == 3
             puts "The back cover of the journal is covered in many water ring stains\n\nas if it's regularly used as a coaster.\n\n"
+            prompt.keypress("Press to return", keys: [:space, :return])
+            system("clear")
             self.desk_journal
         elsif choice == 4
             system('clear')
