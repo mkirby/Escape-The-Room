@@ -106,7 +106,7 @@ class Escape < ActiveRecord::Base
     end
     def cage_reach_cue
         prompt = TTY::Prompt.new
-        puts "You just manage to get a finger on a cue stick and roll it towards your cage."
+        puts "You just manage to get a finger on a cue stick and roll it towards your cage.\n\n"
         EscapeTheRoom.add_character_item("Cue Stick")
         choice = prompt.select('You now have a cue stick, what would you like to do with it?') do |menu|
             menu.choice "Reach For The Keys With The Cue Stick", 1
@@ -134,6 +134,7 @@ class Escape < ActiveRecord::Base
         puts "With all your focus on extending your arm out, you barely notice the large #{bugs.sample} drop down on your shoulder.\n\n"
         puts "Before you can react, it crawls onto your neck and down your back. You shake out your shirt but can't the spider.\n\n"
         EscapeTheRoom.change_terror(3)
+        puts "You terror has risen: +3\n\n"
         prompt.keypress("Try Something Else", keys: [:space, :return])
         system("clear")
         self.cage
@@ -159,7 +160,7 @@ class Escape < ActiveRecord::Base
             self.update(where_am_i: "#{choice}")
             if choice == "Pool Table" || choice == "Surgical Table" || choice == "Bookcase"
                 self.update(where_am_i: "Middle of Room")
-                puts "The #{choice} blinks from existance as if it didn't exist yet!"
+                puts "The #{choice} blinks from existance as if it didn't exist yet!\n\n"
                 self.middle_of_room
             elsif choice == "Shelves"
                 self.shelves
