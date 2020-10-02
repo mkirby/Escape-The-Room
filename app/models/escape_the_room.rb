@@ -222,14 +222,14 @@ class EscapeTheRoom
         system('clear')
         puts "#{@session_character.name} has died."
         sleep 3
-        EscapeTheRoom.user_menu
+        EscapeTheRoom.thanks_for_playing
     end
 
     def self.insane
         system('clear')
         puts "#{@session_character.name} has gone insane."
         sleep 3
-        EscapeTheRoom.user_menu
+        EscapeTheRoom.thanks_for_playing
     end
 
     def self.has_item?(item_name)
